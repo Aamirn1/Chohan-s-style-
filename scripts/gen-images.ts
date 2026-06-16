@@ -1,8 +1,10 @@
 import ZAI from 'z-ai-web-dev-sdk';
 import fs from 'fs';
 
+// Only use sizes that are multiples of 32 between 512-2880
+// Valid: 1024x1024, 768x1344, 864x1152, 1344x768, 1152x864
 const images = [
-  { prompt: 'Luxurious modern hair salon interior with warm peach and coral gradient lighting, elegant styling chairs, large mirrors, premium atmosphere, professional photography, warm tones, high-end beauty salon', size: '1440x720', name: 'hero' },
+  { prompt: 'Luxurious modern hair salon interior with warm peach and coral gradient lighting, elegant styling chairs, large mirrors, premium atmosphere, professional photography, warm tones, high-end beauty salon, wide shot', size: '1344x768', name: 'hero' },
   { prompt: 'Stylish male haircut, trendy men hairstyle fade, professional barber, modern salon, portrait photography, clean sharp look, high quality', size: '864x1152', name: 'mens-haircut' },
   { prompt: 'Beautiful bridal makeup and hairstyle, elegant Pakistani bride with intricate updo, soft glamour, professional photography, coral and peach tones, luxury bridal look', size: '864x1152', name: 'womens-bridal' },
   { prompt: 'Intricate mehndi henna design on hands, beautiful detailed patterns, traditional Pakistani henna art, close up photography, elegant', size: '1024x1024', name: 'mehndi' },
@@ -19,6 +21,12 @@ const images = [
 async function generate() {
   const zai = await ZAI.create();
   for (const img of images) {
+    // Skip if already exists
+    const path = `public/salon/${img.name}.png`;
+    if (fs.existsSync(path)) {
+      console.log(`Skip ${img.name} (exists)`);
+      continue;
+    }
     try {
       console.log(`Generating ${img.name}...`);
       const response = await zai.images.generations.create({
@@ -26,7 +34,7 @@ async function generate() {
         size: img.size as any,
       });
       const buffer = Buffer.from(response.data[0].base64, 'base64');
-      fs.writeFileSync(`public/salon/${img.name}.png`, buffer);
+      fs.writeFileSync(path, buffer);
       console.log(`Done ${img.name}.png`);
     } catch (e: any) {
       console.error(`Failed ${img.name}: ${e.message}`);

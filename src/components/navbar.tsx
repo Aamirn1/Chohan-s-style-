@@ -34,6 +34,7 @@ export function Navbar() {
       setView(v)
     }
     setMobileOpen(false)
+    useApp.getState().closeAuth()
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 

@@ -1,7 +1,7 @@
 'use client'
 
 import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
+import { persist, createJSONStorage } from 'zustand/middleware'
 
 export type ViewKey =
   | 'landing'
@@ -32,6 +32,9 @@ interface AppState {
   // booking prefill
   bookingPrefill: { serviceId?: string; branchId?: string } | null
   setBookingPrefill: (p: { serviceId?: string; branchId?: string } | null) => void
+  // hydration
+  _hasHydrated: boolean
+  setHasHydrated: (v: boolean) => void
 }
 
 export const useApp = create<AppState>()(
@@ -49,9 +52,12 @@ export const useApp = create<AppState>()(
       closeAuth: () => set({ authModalOpen: false }),
       bookingPrefill: null,
       setBookingPrefill: (p) => set({ bookingPrefill: p }),
+      _hasHydrated: false,
+      setHasHydrated: (v) => set({ _hasHydrated: v }),
     }),
     {
       name: 'chohans-app',
+      storage: createJSONStorage(() => localStorage),
       partialize: (s) => ({ token: s.token, user: s.user, view: s.view }),
     }
   )
