@@ -1,0 +1,206 @@
+// Chohan's Style Hub - Database Schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  password      String
+  name          String
+  phone         String?
+  avatar        String?
+  bio           String?
+  role          String    @default("CUSTOMER") // CUSTOMER, STYLIST, MANAGER, ADMIN, OWNER
+  gender        String?   // MALE, FEMALE
+  branchId      String?
+  branch        Branch?   @relation("BranchStaff", fields: [branchId], references: [id])
+  posts         Post[]
+  comments      Comment[]
+  likes         Like[]
+  bookings      Booking[]
+  reviews       Review[]
+  enrollments   Enrollment[]
+  following     Follow[]   @relation("Following")
+  followers     Follow[]   @relation("Followers")
+  notifications Notification[]
+  reports       Report[]   @relation("ReportedBy")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Branch {
+  id          String    @id @default(cuid())
+  name        String
+  city        String
+  area        String
+  address     String
+  phone       String
+  lat         Float?
+  lng         Float?
+  image       String?
+  openTime    String    @default("09:00")
+  closeTime   String    @default("22:00")
+  staff       User[]    @relation("BranchStaff")
+  services    BranchService[]
+  bookings    Booking[]
+  reviews     Review[]
+  courses     Course[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Service {
+  id          String           @id @default(cuid())
+  name        String
+  description String?
+  gender      String           // MALE, FEMALE, BOTH
+  category    String           // HAIRCUT, COLOR, STYLING, MAKEUP, MEHNDI, SPA, BRIDAL
+  price       Float
+  duration    Int              // in minutes
+  image       String?
+  branches    BranchService[]
+  bookings    Booking[]
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+}
+
+model BranchService {
+  branchId  String
+  serviceId String
+  branch    Branch  @relation(fields: [branchId], references: [id])
+  service   Service @relation(fields: [serviceId], references: [id])
+
+  @@id([branchId, serviceId])
+}
+
+model Post {
+  id         String    @id @default(cuid())
+  image      String
+  caption    String?
+  category   String?   // HAIRSTYLE, MEHNDI, MAKEUP, BRIDAL
+  authorId   String
+  author     User      @relation(fields: [authorId], references: [id])
+  likes      Like[]
+  comments   Comment[]
+  reports    Report[]
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
+model Like {
+  id        String   @id @default(cuid())
+  postId    String
+  userId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@unique([postId, userId])
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  text      String
+  postId    String
+  userId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model Follow {
+  id          String   @id @default(cuid())
+  followerId  String
+  followingId String
+  follower    User     @relation("Following", fields: [followerId], references: [id])
+  following   User     @relation("Followers", fields: [followingId], references: [id])
+  createdAt   DateTime @default(now())
+
+  @@unique([followerId, followingId])
+}
+
+model Booking {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  branchId    String
+  branch      Branch   @relation(fields: [branchId], references: [id])
+  serviceId   String
+  service     Service  @relation(fields: [serviceId], references: [id])
+  stylistId   String?
+  date        String
+  time        String
+  status      String   @default("PENDING") // PENDING, CONFIRMED, COMPLETED, CANCELLED
+  notes       String?
+  price       Float
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Review {
+  id                String   @id @default(cuid())
+  userId            String
+  user              User     @relation(fields: [userId], references: [id])
+  branchId          String
+  branch            Branch   @relation(fields: [branchId], references: [id])
+  bookingId         String?
+  serviceRating     Int      @default(5)
+  staffRating       Int      @default(5)
+  cleanlinessRating Int      @default(5)
+  comment           String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model Course {
+  id          String       @id @default(cuid())
+  title       String
+  description String
+  duration    String
+  fee         Float
+  image       String?
+  instructor  String?
+  branchId    String?
+  branch      Branch?      @relation(fields: [branchId], references: [id])
+  enrollments Enrollment[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model Enrollment {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  courseId  String
+  course    Course   @relation(fields: [courseId], references: [id])
+  status    String   @default("ENROLLED") // ENROLLED, COMPLETED, CANCELLED
+  createdAt DateTime @default(now())
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  type      String   // LIKE, COMMENT, FOLLOW, BOOKING, SYSTEM
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Report {
+  id          String   @id @default(cuid())
+  reporterId  String
+  reporter    User     @relation("ReportedBy", fields: [reporterId], references: [id])
+  postId      String
+  post        Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  reason      String
+  status      String   @default("PENDING") // PENDING, RESOLVED, DISMISSED
+  createdAt   DateTime @default(now())
+}
