@@ -48,62 +48,63 @@ export function LandingPage() {
         <div className="absolute bottom-1/4 left-10 w-80 h-80 bg-fuchsia-500/10 rounded-full blur-[100px] animate-float" style={{ animationDelay: '2.5s' }} />
         <div className="absolute top-1/2 left-1/3 w-64 h-64 bg-amber-500/10 rounded-full blur-[80px] animate-float" style={{ animationDelay: '1s' }} />
 
-        <div className="container mx-auto px-4 relative z-10 py-24">
+        <div className="container mx-auto px-4 relative z-10 pt-20 pb-24 md:py-24">
           <div className="max-w-3xl">
             <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.2 }}
-                className="inline-flex"
+                className="inline-flex mb-4 md:mb-6"
               >
-                <Badge className="mb-6 glass-card border-primary/30 text-primary backdrop-blur px-4 py-1.5 text-xs font-medium tracking-wide">
-                  <Sparkles className="w-3.5 h-3.5 mr-1.5" /> PREMIUM SALON & BEAUTY ACADEMY
+                <Badge className="glass-card border-primary/30 text-primary backdrop-blur px-4 py-1.5 text-[11px] md:text-xs font-medium tracking-wide">
+                  <Sparkles className="w-3.5 h-3.5 mr-1.5 shrink-0" />
+                  <span className="typewriter">PREMIUM SALON & BEAUTY ACADEMY</span>
                 </Badge>
               </motion.div>
 
-              <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold leading-[1.05] mb-6 tracking-tight">
+              <h1 className="font-display text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold leading-[1.05] mb-4 md:mb-6 tracking-tight">
                 Where <span className="shimmer-text">Style</span><br />
                 <span className="text-brand-gradient">Meets Excellence</span>
               </h1>
 
-              <p className="text-lg md:text-xl text-foreground/70 mb-10 max-w-2xl leading-relaxed">
+              <p className="text-base md:text-xl text-foreground/70 mb-6 md:mb-10 max-w-2xl leading-relaxed">
                 Experience premium hair styling, bridal makeup, mehndi artistry, and professional beauty courses at Pakistan's leading multi-branch salon.
               </p>
 
-              <div className="flex flex-wrap gap-4 mb-14">
+              <div className="flex flex-wrap gap-3 md:gap-4 mb-8 md:mb-14">
                 <Button
                   size="lg"
                   onClick={() => bookService()}
-                  className="bg-brand-gradient text-white hover:opacity-90 text-base px-8 h-13 rounded-full shadow-xl glow-soft btn-glow border-0"
+                  className="bg-brand-gradient text-white hover:opacity-90 text-sm md:text-base px-6 md:px-8 h-11 md:h-13 rounded-full shadow-xl glow-soft btn-glow border-0"
                 >
-                  <Calendar className="w-5 h-5 mr-2" /> Book Appointment
+                  <Calendar className="w-4 h-4 md:w-5 md:h-5 mr-2" /> Book Appointment
                 </Button>
                 <Button
                   size="lg"
                   variant="outline"
                   onClick={() => setView('explore')}
-                  className="text-base px-8 h-13 rounded-full glass-card border-primary/20 hover:border-primary/40 backdrop-blur"
+                  className="text-sm md:text-base px-6 md:px-8 h-11 md:h-13 rounded-full glass-card border-primary/20 hover:border-primary/40 backdrop-blur"
                 >
                   Browse Styles <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
               </div>
 
-              {/* Stats bar */}
+              {/* Stats bar — reordered: Clients, Stylists, Years, Branches */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
-                className="glass-card rounded-2xl p-5 inline-flex flex-wrap gap-x-8 gap-y-4"
+                className="glass-card rounded-2xl p-4 md:p-5 grid grid-cols-2 sm:inline-grid sm:grid-cols-4 gap-4 sm:gap-x-8"
               >
                 {[
                   { icon: Users, label: 'Happy Clients', value: '15K+' },
                   { icon: Scissors, label: 'Expert Stylists', value: '20+' },
-                  { icon: MapPin, label: 'Branches', value: '4' },
                   { icon: Award, label: 'Years', value: '10+' },
+                  { icon: MapPin, label: 'Branches', value: '4' },
                 ].map((s, i) => (
                   <div key={s.label} className="flex items-center gap-2.5">
-                    <div className="w-9 h-9 rounded-xl bg-brand-gradient flex items-center justify-center shadow-md">
+                    <div className="w-9 h-9 rounded-xl bg-brand-gradient flex items-center justify-center shadow-md shrink-0">
                       <s.icon className="w-4 h-4 text-white" />
                     </div>
                     <div>
