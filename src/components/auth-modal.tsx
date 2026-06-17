@@ -46,11 +46,11 @@ export function AuthModal() {
 
   return (
     <Dialog open={authModalOpen} onOpenChange={(o) => !o && closeAuth()}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md bg-card border-border/40">
         <DialogHeader>
           <div className="flex items-center justify-center mb-2">
             <div className="flex items-center gap-2">
-              <div className="w-10 h-10 rounded-full bg-brand-gradient flex items-center justify-center">
+              <div className="w-10 h-10 rounded-full bg-brand-gradient flex items-center justify-center shadow-lg glow-soft">
                 <Scissors className="w-5 h-5 text-white" />
               </div>
               <span className="font-display text-xl font-bold shimmer-text">Chohan's Style Hub</span>
@@ -65,9 +65,9 @@ export function AuthModal() {
         </DialogHeader>
 
         <Tabs defaultValue={authMode} className="w-full">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="login" onClick={() => useApp.setState({ authMode: 'login' })}>Login</TabsTrigger>
-            <TabsTrigger value="signup" onClick={() => useApp.setState({ authMode: 'signup' })}>Sign Up</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-2 bg-muted/50">
+            <TabsTrigger value="login" onClick={() => useApp.setState({ authMode: 'login' })} className="data-[state=active]:bg-brand-gradient data-[state=active]:text-white">Login</TabsTrigger>
+            <TabsTrigger value="signup" onClick={() => useApp.setState({ authMode: 'signup' })} className="data-[state=active]:bg-brand-gradient data-[state=active]:text-white">Sign Up</TabsTrigger>
           </TabsList>
 
           <TabsContent value="login">
@@ -86,11 +86,11 @@ export function AuthModal() {
                   <Input id="password" name="password" type="password" placeholder="••••••••" className="pl-9" required />
                 </div>
               </div>
-              <Button type="submit" disabled={loading} className="w-full bg-brand-gradient text-white hover:opacity-90">
+              <Button type="submit" disabled={loading} className="w-full bg-brand-gradient text-white hover:opacity-90 btn-glow border-0">
                 {loading ? 'Signing in...' : 'Sign In'}
               </Button>
-              <div className="text-xs text-center text-muted-foreground bg-muted/50 rounded-md p-3">
-                <p className="font-semibold mb-1">Demo Accounts:</p>
+              <div className="text-xs text-center text-muted-foreground glass-card rounded-lg p-3">
+                <p className="font-semibold mb-1 text-primary">Demo Accounts</p>
                 <p>Customer: demo@chohans.com / demo123</p>
                 <p>Owner: owner@chohans.com / owner123</p>
                 <p>Admin: admin@chohans.com / admin123</p>
@@ -137,7 +137,7 @@ export function AuthModal() {
                   <Input id="password" name="password" type="password" placeholder="••••••••" className="pl-9" required />
                 </div>
               </div>
-              <Button type="submit" disabled={loading} className="w-full bg-brand-gradient text-white hover:opacity-90">
+              <Button type="submit" disabled={loading} className="w-full bg-brand-gradient text-white hover:opacity-90 btn-glow border-0">
                 {loading ? 'Creating account...' : 'Create Account'}
               </Button>
             </form>

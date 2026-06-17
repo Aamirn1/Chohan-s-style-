@@ -38,8 +38,8 @@ export function BottomNav() {
   if (!visible) return null
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-30 glass border-t border-border/50 pb-[env(safe-area-inset-bottom)]">
-      <div className="flex items-center justify-around h-16 bg-gradient-to-r from-background/80 via-background/80 to-primary/5">
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-30 glass-card border-t border-border/40 pb-[env(safe-area-inset-bottom)]">
+      <div className="flex items-center justify-around h-16">
         {items.map((item) => {
           const Icon = item.icon
           const active = view === item.view
@@ -49,10 +49,10 @@ export function BottomNav() {
               onClick={() => go(item.view)}
               className="flex flex-col items-center gap-1 px-2 py-1 min-w-[44px] min-h-[44px] justify-center"
             >
-              <div className={`p-1.5 rounded-full transition-all ${active ? 'bg-gradient-to-br from-primary to-rose-500 shadow-md' : ''}`}>
+              <div className={`p-1.5 rounded-full transition-all ${active ? 'bg-brand-gradient shadow-md glow-soft' : ''}`}>
                 <Icon className={`w-5 h-5 ${active ? 'text-white' : 'text-muted-foreground'}`} />
               </div>
-              <span className={`text-[10px] font-medium ${active ? 'bg-gradient-to-r from-primary to-rose-500 bg-clip-text text-transparent' : 'text-muted-foreground'}`}>
+              <span className={`text-[10px] font-medium ${active ? 'text-brand-gradient' : 'text-muted-foreground'}`}>
                 {item.label}
               </span>
             </button>

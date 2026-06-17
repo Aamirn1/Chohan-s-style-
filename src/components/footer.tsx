@@ -4,13 +4,15 @@ import { Scissors, Phone, Mail, MapPin, Instagram, Facebook, Youtube } from 'luc
 
 export function Footer() {
   return (
-    <footer className="mt-auto bg-gradient-to-b from-background via-muted/40 to-muted/60 border-t pt-12 pb-24 md:pb-8">
-      <div className="container mx-auto px-4">
+    <footer className="mt-auto relative overflow-hidden border-t border-border/40">
+      <div className="absolute inset-0 aurora-bg opacity-20" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+      <div className="container mx-auto px-4 relative z-10 pt-12 pb-24 md:pb-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           {/* Brand */}
           <div className="md:col-span-1">
             <div className="flex items-center gap-2 mb-3">
-              <div className="w-9 h-9 rounded-full bg-gradient-to-br from-amber-400 via-orange-400 to-rose-400 flex items-center justify-center shadow-md">
+              <div className="w-9 h-9 rounded-full bg-brand-gradient flex items-center justify-center shadow-lg glow-soft">
                 <Scissors className="w-4 h-4 text-white" />
               </div>
               <span className="font-display font-bold shimmer-text">Chohan's Style Hub</span>
@@ -19,13 +21,13 @@ export function Footer() {
               Premium multi-branch hair salon & beauty academy. Where style meets excellence.
             </p>
             <div className="flex gap-2">
-              <a href="#" className="w-9 h-9 rounded-full bg-gradient-to-br from-muted to-muted/50 flex items-center justify-center hover:from-primary hover:to-rose-500 hover:text-white transition-all">
+              <a href="#" className="w-9 h-9 rounded-full glass-card flex items-center justify-center hover:bg-brand-gradient hover:text-white transition-all">
                 <Instagram className="w-4 h-4" />
               </a>
-              <a href="#" className="w-9 h-9 rounded-full bg-gradient-to-br from-muted to-muted/50 flex items-center justify-center hover:from-primary hover:to-rose-500 hover:text-white transition-all">
+              <a href="#" className="w-9 h-9 rounded-full glass-card flex items-center justify-center hover:bg-brand-gradient hover:text-white transition-all">
                 <Facebook className="w-4 h-4" />
               </a>
-              <a href="#" className="w-9 h-9 rounded-full bg-gradient-to-br from-muted to-muted/50 flex items-center justify-center hover:from-primary hover:to-rose-500 hover:text-white transition-all">
+              <a href="#" className="w-9 h-9 rounded-full glass-card flex items-center justify-center hover:bg-brand-gradient hover:text-white transition-all">
                 <Youtube className="w-4 h-4" />
               </a>
             </div>

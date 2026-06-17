@@ -62,4 +62,4 @@ server.log
 /public/uploads/
 
 # Generated scripts output
-public/salon/images.json
+public/salon/images.json/upload/

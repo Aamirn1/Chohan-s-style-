@@ -45,15 +45,15 @@ export function Navbar() {
   }
 
   return (
-    <header className={`sticky top-0 z-40 transition-all duration-300 ${scrolled ? 'glass shadow-md border-b border-border/50' : 'bg-gradient-to-r from-background via-background to-primary/5'}`}>
+    <header className={`sticky top-0 z-40 transition-all duration-300 ${scrolled ? 'glass-card border-b border-border/40 shadow-lg' : 'bg-transparent'}`}>
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo */}
         <button onClick={() => go('landing')} className="flex items-center gap-2 group">
-          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-amber-400 via-orange-400 to-rose-400 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+          <div className="w-9 h-9 rounded-full bg-brand-gradient flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform glow-soft">
             <Scissors className="w-4 h-4 text-white" />
           </div>
           <span className="font-display text-lg font-bold shimmer-text hidden sm:inline">Chohan's Style Hub</span>
-          <span className="font-display text-lg font-bold bg-gradient-to-r from-primary to-rose-500 bg-clip-text text-transparent sm:hidden">Chohan's</span>
+          <span className="font-display text-lg font-bold text-brand-gradient sm:hidden">Chohan's</span>
         </button>
 
         {/* Desktop nav */}
@@ -64,8 +64,8 @@ export function Navbar() {
               onClick={() => go(item.view)}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                 view === item.view
-                  ? 'bg-gradient-to-r from-primary to-rose-500 text-white shadow-md'
-                  : 'text-foreground/70 hover:text-foreground hover:bg-muted'
+                  ? 'bg-brand-gradient text-white shadow-md glow-soft'
+                  : 'text-foreground/70 hover:text-foreground hover:bg-muted/50'
               }`}
             >
               {item.label}
@@ -96,8 +96,8 @@ export function Navbar() {
             </>
           ) : (
             <>
-              <Button variant="ghost" size="sm" onClick={() => openAuth('login')} className="hidden md:inline-flex">Login</Button>
-              <Button size="sm" onClick={() => openAuth('signup')} className="bg-gradient-to-r from-primary to-rose-500 text-white hover:opacity-90 hidden md:inline-flex">Sign Up</Button>
+              <Button variant="ghost" size="sm" onClick={() => openAuth('login')} className="hidden md:inline-flex text-foreground/80 hover:text-foreground">Login</Button>
+              <Button size="sm" onClick={() => openAuth('signup')} className="bg-brand-gradient text-white hover:opacity-90 hidden md:inline-flex btn-glow border-0">Sign Up</Button>
             </>
           )}
 
@@ -108,10 +108,10 @@ export function Navbar() {
                 {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-72">
+            <SheetContent side="right" className="w-72 bg-card border-border/40">
               <div className="flex flex-col gap-2 mt-6">
-                <div className="flex items-center gap-2 mb-4 pb-4 border-b">
-                  <div className="w-10 h-10 rounded-full bg-brand-gradient flex items-center justify-center">
+                <div className="flex items-center gap-2 mb-4 pb-4 border-b border-border/40">
+                  <div className="w-10 h-10 rounded-full bg-brand-gradient flex items-center justify-center shadow-md">
                     <Scissors className="w-5 h-5 text-white" />
                   </div>
                   <span className="font-display font-bold shimmer-text">Chohan's Style Hub</span>
