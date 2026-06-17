@@ -48,14 +48,14 @@ export function LandingPage() {
         <div className="absolute bottom-1/4 left-10 w-80 h-80 bg-fuchsia-500/10 rounded-full blur-[100px] animate-float" style={{ animationDelay: '2.5s' }} />
         <div className="absolute top-1/2 left-1/3 w-64 h-64 bg-amber-500/10 rounded-full blur-[80px] animate-float" style={{ animationDelay: '1s' }} />
 
-        <div className="container mx-auto px-4 relative z-10 pt-24 pb-16 md:py-24 min-h-screen flex flex-col justify-start md:justify-center">
+        <div className="container mx-auto px-4 relative z-10 pt-6 pb-10 md:pt-16 md:pb-16 min-h-screen flex flex-col justify-start md:justify-center">
           <div className="max-w-3xl">
             <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.2 }}
-                className="inline-flex mb-6 md:mb-8"
+                className="inline-flex mb-5 md:mb-8"
               >
                 <Badge className="glass-card border-primary/30 text-primary backdrop-blur px-4 py-1.5 text-[11px] md:text-xs font-medium tracking-wide">
                   <Sparkles className="w-3.5 h-3.5 mr-1.5 shrink-0" />
@@ -63,28 +63,28 @@ export function LandingPage() {
                 </Badge>
               </motion.div>
 
-              <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-[1.05] mb-6 md:mb-8 tracking-tight">
+              <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-[1.05] mb-5 md:mb-8 tracking-tight">
                 Where <span className="shimmer-text">Style</span><br />
                 <span className="text-brand-gradient">Meets Excellence</span>
               </h1>
 
-              <p className="text-lg md:text-xl text-foreground/70 mb-8 md:mb-12 max-w-2xl leading-relaxed">
+              <p className="text-base sm:text-lg md:text-xl text-foreground/70 mb-6 md:mb-12 max-w-2xl leading-relaxed">
                 Experience premium hair styling, bridal makeup, mehndi artistry, and professional beauty courses at Pakistan's leading multi-branch salon.
               </p>
 
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-3 md:gap-4">
                 <Button
                   size="lg"
                   onClick={() => bookService()}
-                  className="bg-brand-gradient text-white hover:opacity-90 text-base px-8 h-13 rounded-full shadow-xl glow-soft btn-glow border-0"
+                  className="bg-brand-gradient text-white hover:opacity-90 text-sm md:text-base px-6 md:px-8 h-12 md:h-13 rounded-full shadow-xl glow-soft btn-glow border-0"
                 >
-                  <Calendar className="w-5 h-5 mr-2" /> Book Appointment
+                  <Calendar className="w-4 h-4 md:w-5 md:h-5 mr-2" /> Book Appointment
                 </Button>
                 <Button
                   size="lg"
                   variant="outline"
                   onClick={() => setView('explore')}
-                  className="text-base px-8 h-13 rounded-full glass-card border-primary/20 hover:border-primary/40 backdrop-blur"
+                  className="text-sm md:text-base px-6 md:px-8 h-12 md:h-13 rounded-full glass-card border-primary/20 hover:border-primary/40 backdrop-blur"
                 >
                   Browse Styles <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
@@ -97,7 +97,7 @@ export function LandingPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.5 }}
-            className="flex flex-col items-center gap-2 mt-8 md:hidden"
+            className="flex flex-col items-center gap-2 mt-6 md:hidden"
           >
             <span className="text-[10px] text-muted-foreground tracking-widest uppercase">Scroll for stats</span>
             <div className="w-5 h-8 border border-muted-foreground/40 rounded-full flex items-start justify-center p-1">

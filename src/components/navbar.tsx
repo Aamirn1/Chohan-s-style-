@@ -52,8 +52,8 @@ export function Navbar() {
           <div className="w-9 h-9 rounded-full bg-brand-gradient flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform glow-soft">
             <Scissors className="w-4 h-4 text-white" />
           </div>
-          <span className="font-display text-lg font-bold shimmer-text hidden sm:inline">Chohan's Style Hub</span>
-          <span className="font-display text-lg font-bold text-brand-gradient sm:hidden">Chohan's</span>
+          <span className="font-display text-lg font-bold logo-gold hidden sm:inline">Chohan's Style Hub</span>
+          <span className="font-display text-lg font-bold logo-gold sm:hidden">Chohan's</span>
         </button>
 
         {/* Desktop nav */}
@@ -114,7 +114,7 @@ export function Navbar() {
                   <div className="w-10 h-10 rounded-full bg-brand-gradient flex items-center justify-center shadow-md">
                     <Scissors className="w-5 h-5 text-white" />
                   </div>
-                  <span className="font-display font-bold shimmer-text">Chohan's Style Hub</span>
+                  <span className="font-display font-bold logo-gold">Chohan's Style Hub</span>
                 </div>
                 {navItems.map((item) => (
                   <button

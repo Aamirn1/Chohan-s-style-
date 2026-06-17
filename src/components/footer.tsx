@@ -15,7 +15,7 @@ export function Footer() {
               <div className="w-9 h-9 rounded-full bg-brand-gradient flex items-center justify-center shadow-lg glow-soft">
                 <Scissors className="w-4 h-4 text-white" />
               </div>
-              <span className="font-display font-bold shimmer-text">Chohan's Style Hub</span>
+              <span className="font-display font-bold logo-gold">Chohan's Style Hub</span>
             </div>
             <p className="text-sm text-muted-foreground mb-3">
               Premium multi-branch hair salon & beauty academy. Where style meets excellence.

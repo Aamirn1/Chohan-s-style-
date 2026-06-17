@@ -53,7 +53,7 @@ export function AuthModal() {
               <div className="w-10 h-10 rounded-full bg-brand-gradient flex items-center justify-center shadow-lg glow-soft">
                 <Scissors className="w-5 h-5 text-white" />
               </div>
-              <span className="font-display text-xl font-bold shimmer-text">Chohan's Style Hub</span>
+              <span className="font-display text-xl font-bold logo-gold">Chohan's Style Hub</span>
             </div>
           </div>
           <DialogTitle className="text-center text-2xl font-display">
