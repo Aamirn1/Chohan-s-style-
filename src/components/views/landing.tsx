@@ -60,15 +60,16 @@ export function LandingPage() {
               </Badge>
             </motion.div>
 
-            {/* Headline */}
+            {/* Headline - 3 lines */}
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.08] mb-4 md:mb-6 tracking-tight"
+              className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-[1.05] mb-4 md:mb-6 tracking-tight"
             >
-              Where <span className="shimmer-text">Style</span> Meets<br className="hidden sm:block" />
-              <span className="text-brand-gradient"> Excellence</span>
+              Where <span className="shimmer-text">Style</span><br />
+              Meets<br />
+              <span className="text-brand-gradient">Excellence</span>
             </motion.h1>
 
             {/* Subheading */}
@@ -81,27 +82,27 @@ export function LandingPage() {
               Premium hair styling, bridal makeup, mehndi artistry & professional beauty courses at Pakistan's leading multi-branch salon.
             </motion.p>
 
-            {/* CTAs - together with good spacing */}
+            {/* CTAs - single horizontal row on all sizes */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8 }}
-              className="flex flex-col sm:flex-row gap-3 mb-8 md:mb-10"
+              className="flex flex-row gap-2 sm:gap-3 mb-8 md:mb-10"
             >
               <Button
                 size="lg"
                 onClick={() => bookService()}
-                className="bg-brand-gradient text-white hover:opacity-90 text-base px-8 h-13 rounded-full shadow-xl glow-soft btn-glow border-0 w-full sm:w-auto justify-center"
+                className="bg-brand-gradient text-white hover:opacity-90 text-xs sm:text-base px-4 sm:px-8 h-12 sm:h-13 rounded-full shadow-xl glow-soft btn-glow border-0 flex-1 sm:flex-none justify-center"
               >
-                <Calendar className="w-5 h-5 mr-2" /> Book Appointment
+                <Calendar className="w-4 h-4 sm:w-5 sm:h-5 mr-1.5 sm:mr-2 shrink-0" /> <span className="truncate">Book Appointment</span>
               </Button>
               <Button
                 size="lg"
                 variant="outline"
                 onClick={() => setView('explore')}
-                className="text-base px-8 h-13 rounded-full glass-card border-primary/20 hover:border-primary/40 backdrop-blur w-full sm:w-auto justify-center"
+                className="text-xs sm:text-base px-4 sm:px-8 h-12 sm:h-13 rounded-full glass-card border-primary/20 hover:border-primary/40 backdrop-blur flex-1 sm:flex-none justify-center"
               >
-                Browse Styles <ArrowRight className="w-4 h-4 ml-2" />
+                <span className="truncate">Browse Styles</span> <ArrowRight className="w-4 h-4 ml-1.5 sm:ml-2 shrink-0" />
               </Button>
             </motion.div>
 
