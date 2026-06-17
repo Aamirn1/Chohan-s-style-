@@ -32,78 +32,103 @@ export function LandingPage() {
   return (
     <div className="overflow-hidden">
       {/* ===== HERO ===== */}
-      <section className="relative min-h-screen flex items-center">
-        {/* Background image with dark overlay */}
+      <section className="relative min-h-[100svh] flex items-center overflow-hidden">
+        {/* Background image - brighter, with gradient fade to background at bottom */}
         <div className="absolute inset-0">
           <img src={salonImage('/salon/hero.png')} alt="Salon" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/60 to-background" />
-          <div className="absolute inset-0 bg-gradient-to-r from-background/80 via-transparent to-background/40" />
+          {/* Lighter overlay so salon photo is visible */}
+          <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-background/40 to-background" />
+          <div className="absolute inset-0 bg-gradient-to-r from-background/70 via-transparent to-transparent" />
         </div>
 
-        {/* Aurora mesh overlay */}
-        <div className="absolute inset-0 aurora-bg opacity-60" />
+        {/* Subtle aurora glow */}
+        <div className="absolute top-1/4 right-0 w-96 h-96 bg-primary/10 rounded-full blur-[120px] animate-float" />
+        <div className="absolute bottom-1/4 left-0 w-80 h-80 bg-fuchsia-500/8 rounded-full blur-[120px] animate-float" style={{ animationDelay: '2.5s' }} />
 
-        {/* Floating glow orbs */}
-        <div className="absolute top-1/4 right-10 w-96 h-96 bg-primary/15 rounded-full blur-[100px] animate-float" />
-        <div className="absolute bottom-1/4 left-10 w-80 h-80 bg-fuchsia-500/10 rounded-full blur-[100px] animate-float" style={{ animationDelay: '2.5s' }} />
-        <div className="absolute top-1/2 left-1/3 w-64 h-64 bg-amber-500/10 rounded-full blur-[80px] animate-float" style={{ animationDelay: '1s' }} />
-
-        <div className="container mx-auto px-4 relative z-10 pt-6 pb-10 md:pt-16 md:pb-16 min-h-screen flex flex-col justify-start md:justify-center">
-          <div className="max-w-3xl flex flex-col min-h-[calc(100vh-8rem)]">
-            <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.2 }}
-                className="inline-flex mb-5 md:mb-8"
-              >
-                <Badge className="glass-card border-primary/30 text-primary backdrop-blur px-4 py-1.5 text-[11px] md:text-xs font-medium tracking-wide">
-                  <Sparkles className="w-3.5 h-3.5 mr-1.5 shrink-0" />
-                  <span className="typewriter">PREMIUM SALON & BEAUTY ACADEMY</span>
-                </Badge>
-              </motion.div>
-
-              <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-[1.05] mb-5 md:mb-8 tracking-tight">
-                Where <span className="shimmer-text">Style</span><br />
-                <span className="text-brand-gradient">Meets Excellence</span>
-              </h1>
-
-              <p className="text-base sm:text-lg md:text-xl text-foreground/70 mb-6 md:mb-12 max-w-2xl leading-relaxed">
-                Experience premium hair styling, bridal makeup, mehndi artistry, and professional beauty courses at Pakistan's leading multi-branch salon.
-              </p>
-
-              <Button
-                size="lg"
-                onClick={() => bookService()}
-                className="bg-brand-gradient text-white hover:opacity-90 text-sm md:text-base px-6 md:px-8 h-12 md:h-13 rounded-full shadow-xl glow-soft btn-glow border-0 w-full sm:w-auto"
-              >
-                <Calendar className="w-4 h-4 md:w-5 md:h-5 mr-2" /> Book Appointment
-              </Button>
+        <div className="container mx-auto px-4 relative z-10 pt-8 pb-12 md:pt-20 md:pb-20 w-full">
+          <div className="max-w-3xl">
+            {/* Badge */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2 }}
+              className="inline-flex mb-5 md:mb-7"
+            >
+              <Badge className="glass-card border-primary/30 text-primary backdrop-blur px-4 py-1.5 text-[11px] md:text-xs font-medium tracking-wide">
+                <Sparkles className="w-3.5 h-3.5 mr-1.5 shrink-0" />
+                <span className="typewriter">PREMIUM SALON & BEAUTY ACADEMY</span>
+              </Badge>
             </motion.div>
 
-            {/* Browse Styles button pushed to bottom of hero */}
-            <motion.div
+            {/* Headline */}
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.08] mb-4 md:mb-6 tracking-tight"
+            >
+              Where <span className="shimmer-text">Style</span> Meets<br className="hidden sm:block" />
+              <span className="text-brand-gradient"> Excellence</span>
+            </motion.h1>
+
+            {/* Subheading */}
+            <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
-              className="mt-auto pt-6"
+              className="text-base sm:text-lg md:text-xl text-foreground/75 mb-8 md:mb-10 max-w-xl leading-relaxed"
             >
+              Premium hair styling, bridal makeup, mehndi artistry & professional beauty courses at Pakistan's leading multi-branch salon.
+            </motion.p>
+
+            {/* CTAs - together with good spacing */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.8 }}
+              className="flex flex-col sm:flex-row gap-3 mb-8 md:mb-10"
+            >
+              <Button
+                size="lg"
+                onClick={() => bookService()}
+                className="bg-brand-gradient text-white hover:opacity-90 text-base px-8 h-13 rounded-full shadow-xl glow-soft btn-glow border-0 w-full sm:w-auto justify-center"
+              >
+                <Calendar className="w-5 h-5 mr-2" /> Book Appointment
+              </Button>
               <Button
                 size="lg"
                 variant="outline"
                 onClick={() => setView('explore')}
-                className="text-sm md:text-base px-6 md:px-8 h-12 md:h-13 rounded-full glass-card border-primary/20 hover:border-primary/40 backdrop-blur w-full sm:w-auto"
+                className="text-base px-8 h-13 rounded-full glass-card border-primary/20 hover:border-primary/40 backdrop-blur w-full sm:w-auto justify-center"
               >
                 Browse Styles <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             </motion.div>
+
+            {/* Trust line */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1 }}
+              className="flex items-center gap-4 text-sm text-muted-foreground"
+            >
+              <div className="flex items-center gap-1.5">
+                <div className="flex">
+                  {[1,2,3,4,5].map((i) => (
+                    <Star key={i} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                  ))}
+                </div>
+                <span className="font-semibold text-foreground/80">4.9</span>
+              </div>
+              <span className="text-border">•</span>
+              <span>Trusted by 15,000+ clients</span>
+            </motion.div>
           </div>
         </div>
+      </section>
 
-        </section>
-
-      {/* ===== STATS BAR (requires scroll on mobile) ===== */}
-      <section className="relative py-12 md:py-16 bg-gradient-to-b from-background to-muted/20">
+      {/* ===== STATS BAR ===== */}
+      <section className="relative py-10 md:py-14 bg-gradient-to-b from-background to-muted/20">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
