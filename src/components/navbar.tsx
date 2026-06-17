@@ -45,15 +45,15 @@ export function Navbar() {
   }
 
   return (
-    <header className={`sticky top-0 z-40 transition-all duration-300 ${scrolled ? 'glass shadow-md' : 'bg-background'}`}>
+    <header className={`sticky top-0 z-40 transition-all duration-300 ${scrolled ? 'glass shadow-md border-b border-border/50' : 'bg-gradient-to-r from-background via-background to-primary/5'}`}>
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo */}
         <button onClick={() => go('landing')} className="flex items-center gap-2 group">
-          <div className="w-9 h-9 rounded-full bg-brand-gradient flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-amber-400 via-orange-400 to-rose-400 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
             <Scissors className="w-4 h-4 text-white" />
           </div>
           <span className="font-display text-lg font-bold shimmer-text hidden sm:inline">Chohan's Style Hub</span>
-          <span className="font-display text-lg font-bold text-primary sm:hidden">Chohan's</span>
+          <span className="font-display text-lg font-bold bg-gradient-to-r from-primary to-rose-500 bg-clip-text text-transparent sm:hidden">Chohan's</span>
         </button>
 
         {/* Desktop nav */}
@@ -64,7 +64,7 @@ export function Navbar() {
               onClick={() => go(item.view)}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                 view === item.view
-                  ? 'bg-brand-gradient text-white shadow-md'
+                  ? 'bg-gradient-to-r from-primary to-rose-500 text-white shadow-md'
                   : 'text-foreground/70 hover:text-foreground hover:bg-muted'
               }`}
             >
@@ -97,7 +97,7 @@ export function Navbar() {
           ) : (
             <>
               <Button variant="ghost" size="sm" onClick={() => openAuth('login')} className="hidden md:inline-flex">Login</Button>
-              <Button size="sm" onClick={() => openAuth('signup')} className="bg-brand-gradient text-white hover:opacity-90 hidden md:inline-flex">Sign Up</Button>
+              <Button size="sm" onClick={() => openAuth('signup')} className="bg-gradient-to-r from-primary to-rose-500 text-white hover:opacity-90 hidden md:inline-flex">Sign Up</Button>
             </>
           )}
 

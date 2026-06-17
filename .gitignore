@@ -52,3 +52,14 @@ prompt
 server.log
 # Skills directory
 /skills/
+
+# Database
+/db/*.db
+/db/*.db-journal
+/prisma/migrations/dev/
+
+# User uploads
+/public/uploads/
+
+# Generated scripts output
+public/salon/images.json
