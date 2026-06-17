@@ -181,7 +181,7 @@
   animation: shimmer 4s linear infinite;
 }
 
-/* Golden color shift animation for brand logo text */
+/* Color shift animation for brand logo text - uses same colors as 'Excellence' (text-brand-gradient) */
 @keyframes gold-shift {
   0%   { background-position: 0% 50%; }
   50%  { background-position: 100% 50%; }
@@ -190,12 +190,10 @@
 .logo-gold {
   background: linear-gradient(
     90deg,
-    oklch(0.78 0.16 70) 0%,    /* gold */
-    oklch(0.72 0.20 35) 20%,   /* coral (current brand) */
-    oklch(0.60 0.24 340) 40%,  /* magenta (current brand) */
-    oklch(0.85 0.18 85) 60%,   /* bright gold */
-    oklch(0.72 0.20 35) 80%,   /* coral */
-    oklch(0.78 0.16 70) 100%   /* gold */
+    oklch(0.82 0.15 75) 0%,     /* gold - same as Excellence */
+    oklch(0.72 0.20 35) 33%,    /* coral - same as Excellence */
+    oklch(0.62 0.24 340) 66%,   /* magenta - same as Excellence */
+    oklch(0.82 0.15 75) 100%    /* gold - loop back */
   );
   background-size: 200% auto;
   -webkit-background-clip: text;
