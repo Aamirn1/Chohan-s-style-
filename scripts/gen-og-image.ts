@@ -1,7 +1,19 @@
 import ZAI from 'z-ai-web-dev-sdk';
 import fs from 'fs';
 
-const prompt = `A premium social media link preview banner for "Chohan's Style Hub", a luxury hair salon and beauty academy. Dark elegant background with warm gold, coral, and magenta gradient accents. Large elegant typography. The design should feature: the brand name "Chohan's Style Hub" in luxurious gold gradient serif font, a tagline "Premium Hair Salon & Beauty Academy" below it, and subtle salon-related imagery (scissors, hair styling tools) as decorative elements. Include subtle glow effects and a sophisticated, high-end aesthetic. The composition should be horizontal banner format 1200x630 for social media sharing. Dark background, premium luxury feel, no people faces.`;
+const prompt = `A premium luxury social media banner for a high-end hair salon called "Chohan's Style Hub". Horizontal banner format. 
+
+Design requirements:
+- Deep dark navy/charcoal background (#0F0F1A) 
+- Large elegant gold gradient serif typography reading "Chohan's Style Hub" as the main title, centered, very prominent and clearly readable
+- A subtitle below in clean white sans-serif: "Premium Hair Salon & Beauty Academy"
+- Below that, smaller text: "Book Your Transformation Today"
+- Gold (#D4A24E), coral (#E07A3C), and magenta (#C73E7A) gradient accents and glow effects
+- Subtle large scissors icon as a decorative watermark element
+- 5 gold stars and "4.9 Rating" text at the bottom
+- Sophisticated, luxury, premium aesthetic like a high-end fashion brand
+- The text MUST be perfectly readable and correctly spelled
+- No people, no faces`;
 
 async function generate() {
   try {
