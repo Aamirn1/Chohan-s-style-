@@ -1,7 +1,7 @@
 'use client'
 
 import { useApp } from '@/lib/store'
-import { Scissors, Menu, X, LogOut, LayoutDashboard, Crown } from 'lucide-react'
+import { Scissors, Menu, X, LogOut, LayoutDashboard, Crown, Home, Compass, Calendar, GraduationCap, MapPin, User, Heart, CalendarCheck, Sparkles } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useState, useEffect } from 'react'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
@@ -20,11 +20,17 @@ export function Navbar() {
   }, [])
 
   const navItems = [
-    { label: 'Home', view: 'landing' as const, public: true },
-    { label: 'Explore', view: 'explore' as const, public: true },
-    { label: 'Book Now', view: 'booking' as const, public: false },
-    { label: 'Courses', view: 'courses' as const, public: true },
-    { label: 'Branches', view: 'branches' as const, public: true },
+    { label: 'Home', view: 'landing' as const, icon: Home },
+    { label: 'Explore', view: 'explore' as const, icon: Compass },
+    { label: 'Book Now', view: 'booking' as const, icon: Calendar },
+    { label: 'Courses', view: 'courses' as const, icon: GraduationCap },
+    { label: 'Branches', view: 'branches' as const, icon: MapPin },
+  ]
+
+  const userItems = [
+    { label: 'My Feed', view: 'feed' as const, icon: Heart },
+    { label: 'My Bookings', view: 'bookings' as const, icon: CalendarCheck },
+    { label: 'Profile', view: 'profile' as const, icon: User },
   ]
 
   function go(v: any) {
@@ -108,57 +114,104 @@ export function Navbar() {
                 {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-72 bg-card border-border/40">
-              <div className="flex flex-col gap-2 mt-6">
-                <div className="flex items-center gap-2 mb-4 pb-4 border-b border-border/40">
-                  <div className="w-10 h-10 rounded-full bg-brand-gradient flex items-center justify-center shadow-md">
+            <SheetContent side="right" className="w-[300px] sm:w-80 bg-card border-border/40 p-0">
+              <div className="flex flex-col h-full">
+                {/* Brand header */}
+                <div className="flex items-center gap-3 px-5 pt-6 pb-5 border-b border-border/40">
+                  <div className="w-11 h-11 rounded-full bg-brand-gradient flex items-center justify-center shadow-lg shrink-0">
                     <Scissors className="w-5 h-5 text-white" />
                   </div>
-                  <span className="font-display font-bold logo-gold">Chohan's Style Hub</span>
-                </div>
-                {navItems.map((item) => (
-                  <button
-                    key={item.view}
-                    onClick={() => go(item.view)}
-                    className={`px-4 py-3 rounded-xl text-left text-sm font-medium transition ${
-                      view === item.view ? 'bg-brand-gradient text-white' : 'hover:bg-muted'
-                    }`}
-                  >
-                    {item.label}
-                  </button>
-                ))}
-                {user && (
-                  <>
-                    <button onClick={() => go('feed')} className={`px-4 py-3 rounded-xl text-left text-sm font-medium transition ${view === 'feed' ? 'bg-brand-gradient text-white' : 'hover:bg-muted'}`}>
-                      My Feed
-                    </button>
-                    <button onClick={() => go('bookings')} className={`px-4 py-3 rounded-xl text-left text-sm font-medium transition ${view === 'bookings' ? 'bg-brand-gradient text-white' : 'hover:bg-muted'}`}>
-                      My Bookings
-                    </button>
-                    <button onClick={() => go('profile')} className={`px-4 py-3 rounded-xl text-left text-sm font-medium transition ${view === 'profile' ? 'bg-brand-gradient text-white' : 'hover:bg-muted'}`}>
-                      Profile
-                    </button>
-                    {user.role === 'OWNER' && (
-                      <button onClick={() => go('owner')} className="px-4 py-3 rounded-xl text-left text-sm font-medium transition hover:bg-muted flex items-center gap-2">
-                        <Crown className="w-4 h-4 text-amber-500" /> Owner Dashboard
-                      </button>
-                    )}
-                    {(user.role === 'ADMIN' || user.role === 'OWNER') && (
-                      <button onClick={() => go('admin')} className="px-4 py-3 rounded-xl text-left text-sm font-medium transition hover:bg-muted flex items-center gap-2">
-                        <LayoutDashboard className="w-4 h-4" /> Admin Panel
-                      </button>
-                    )}
-                    <button onClick={handleLogout} className="px-4 py-3 rounded-xl text-left text-sm font-medium text-destructive hover:bg-destructive/10 flex items-center gap-2">
-                      <LogOut className="w-4 h-4" /> Logout
-                    </button>
-                  </>
-                )}
-                {!user && (
-                  <div className="flex flex-col gap-2 mt-4">
-                    <Button onClick={() => { openAuth('login'); setMobileOpen(false) }} variant="outline">Login</Button>
-                    <Button onClick={() => { openAuth('signup'); setMobileOpen(false) }} className="bg-brand-gradient text-white">Sign Up</Button>
+                  <div className="flex-1 min-w-0">
+                    <span className="font-display font-bold logo-gold text-base block leading-tight">Chohan's Style Hub</span>
+                    <span className="text-[10px] text-muted-foreground tracking-wider uppercase">Premium Salon</span>
                   </div>
-                )}
+                </div>
+
+                {/* Menu items - scrollable */}
+                <div className="flex-1 overflow-y-auto custom-scroll px-3 py-4 space-y-1">
+                  {navItems.map((item) => {
+                    const Icon = item.icon
+                    const active = view === item.view
+                    return (
+                      <button
+                        key={item.view}
+                        onClick={() => go(item.view)}
+                        className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-all ${
+                          active
+                            ? 'bg-brand-gradient text-white shadow-md'
+                            : 'hover:bg-muted/60 text-foreground/90'
+                        }`}
+                      >
+                        <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${
+                          active ? 'bg-white/20' : 'bg-primary/15 border border-primary/25'
+                        }`}>
+                          <Icon className={`w-4 h-4 ${active ? 'text-white' : 'text-primary'}`} />
+                        </div>
+                        {item.label}
+                      </button>
+                    )
+                  })}
+
+                  {/* User section divider */}
+                  {user && (
+                    <div className="pt-3 mt-3 border-t border-border/40">
+                      <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider px-3 mb-2">My Account</p>
+                      {userItems.map((item) => {
+                        const Icon = item.icon
+                        const active = view === item.view
+                        return (
+                          <button
+                            key={item.view}
+                            onClick={() => go(item.view)}
+                            className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-all ${
+                              active ? 'bg-brand-gradient text-white shadow-md' : 'hover:bg-muted/60 text-foreground/90'
+                            }`}
+                          >
+                            <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${active ? 'bg-white/20' : 'bg-primary/15 border border-primary/25'}`}>
+                              <Icon className={`w-4 h-4 ${active ? 'text-white' : 'text-primary'}`} />
+                            </div>
+                            {item.label}
+                          </button>
+                        )
+                      })}
+
+                      {/* Admin/Owner */}
+                      {user.role === 'OWNER' && (
+                        <button onClick={() => go('owner')} className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-all hover:bg-muted/60 text-foreground/90 ${view === 'owner' ? 'bg-brand-gradient text-white shadow-md' : ''}`}>
+                          <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${view === 'owner' ? 'bg-white/20' : 'bg-amber-500/20 border border-amber-500/30'}`}>
+                            <Crown className={`w-4 h-4 ${view === 'owner' ? 'text-white' : 'text-amber-400'}`} />
+                          </div>
+                          Owner Dashboard
+                        </button>
+                      )}
+                      {(user.role === 'ADMIN' || user.role === 'OWNER') && (
+                        <button onClick={() => go('admin')} className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-all hover:bg-muted/60 text-foreground/90 ${view === 'admin' ? 'bg-brand-gradient text-white shadow-md' : ''}`}>
+                          <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${view === 'admin' ? 'bg-white/20' : 'bg-primary/15 border border-primary/25'}`}>
+                            <LayoutDashboard className={`w-4 h-4 ${view === 'admin' ? 'text-white' : 'text-primary'}`} />
+                          </div>
+                          Admin Panel
+                        </button>
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                {/* Footer - Login/Signup or Logout */}
+                <div className="px-3 py-4 border-t border-border/40 space-y-2">
+                  {user ? (
+                    <button onClick={handleLogout} className="w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium text-destructive hover:bg-destructive/10 transition-all">
+                      <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 bg-destructive/20 border border-destructive/30">
+                        <LogOut className="w-4 h-4 text-destructive" />
+                      </div>
+                      Logout
+                    </button>
+                  ) : (
+                    <div className="flex gap-2">
+                      <Button onClick={() => { openAuth('login'); setMobileOpen(false) }} variant="outline" className="flex-1 rounded-xl h-11">Login</Button>
+                      <Button onClick={() => { openAuth('signup'); setMobileOpen(false) }} className="flex-1 rounded-xl h-11 bg-brand-gradient text-white btn-glow border-0">Sign Up</Button>
+                    </div>
+                  )}
+                </div>
               </div>
             </SheetContent>
           </Sheet>

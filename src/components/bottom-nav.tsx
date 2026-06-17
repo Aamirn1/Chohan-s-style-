@@ -38,8 +38,8 @@ export function BottomNav() {
   if (!visible) return null
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-30 glass-card border-t border-border/40 pb-[env(safe-area-inset-bottom)]">
-      <div className="flex items-center justify-around h-16">
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-30 bg-card/95 backdrop-blur-lg border-t border-border/40 pb-[env(safe-area-inset-bottom)]">
+      <div className="flex items-center justify-around h-16 px-2">
         {items.map((item) => {
           const Icon = item.icon
           const active = view === item.view
@@ -47,10 +47,14 @@ export function BottomNav() {
             <button
               key={item.view}
               onClick={() => go(item.view)}
-              className="flex flex-col items-center gap-1 px-2 py-1 min-w-[44px] min-h-[44px] justify-center"
+              className="flex flex-col items-center gap-1 px-2 py-1.5 min-w-[44px] min-h-[44px] justify-center"
             >
-              <div className={`p-1.5 rounded-full transition-all ${active ? 'bg-brand-gradient shadow-md glow-soft' : ''}`}>
-                <Icon className={`w-5 h-5 ${active ? 'text-white' : 'text-muted-foreground'}`} />
+              <div className={`w-9 h-9 rounded-xl flex items-center justify-center transition-all ${
+                active
+                  ? 'bg-brand-gradient shadow-md shadow-primary/30'
+                  : 'bg-muted/60'
+              }`}>
+                <Icon className={`w-[18px] h-[18px] ${active ? 'text-white' : 'text-muted-foreground'}`} />
               </div>
               <span className={`text-[10px] font-medium ${active ? 'text-brand-gradient' : 'text-muted-foreground'}`}>
                 {item.label}
