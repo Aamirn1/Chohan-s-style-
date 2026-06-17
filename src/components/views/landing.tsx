@@ -49,7 +49,7 @@ export function LandingPage() {
         <div className="absolute top-1/2 left-1/3 w-64 h-64 bg-amber-500/10 rounded-full blur-[80px] animate-float" style={{ animationDelay: '1s' }} />
 
         <div className="container mx-auto px-4 relative z-10 pt-6 pb-10 md:pt-16 md:pb-16 min-h-screen flex flex-col justify-start md:justify-center">
-          <div className="max-w-3xl">
+          <div className="max-w-3xl flex flex-col min-h-[calc(100vh-8rem)]">
             <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -72,38 +72,32 @@ export function LandingPage() {
                 Experience premium hair styling, bridal makeup, mehndi artistry, and professional beauty courses at Pakistan's leading multi-branch salon.
               </p>
 
-              <div className="flex flex-wrap gap-3 md:gap-4">
-                <Button
-                  size="lg"
-                  onClick={() => bookService()}
-                  className="bg-brand-gradient text-white hover:opacity-90 text-sm md:text-base px-6 md:px-8 h-12 md:h-13 rounded-full shadow-xl glow-soft btn-glow border-0"
-                >
-                  <Calendar className="w-4 h-4 md:w-5 md:h-5 mr-2" /> Book Appointment
-                </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  onClick={() => setView('explore')}
-                  className="text-sm md:text-base px-6 md:px-8 h-12 md:h-13 rounded-full glass-card border-primary/20 hover:border-primary/40 backdrop-blur"
-                >
-                  Browse Styles <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              </div>
+              <Button
+                size="lg"
+                onClick={() => bookService()}
+                className="bg-brand-gradient text-white hover:opacity-90 text-sm md:text-base px-6 md:px-8 h-12 md:h-13 rounded-full shadow-xl glow-soft btn-glow border-0 w-full sm:w-auto"
+              >
+                <Calendar className="w-4 h-4 md:w-5 md:h-5 mr-2" /> Book Appointment
+              </Button>
+            </motion.div>
+
+            {/* Browse Styles button pushed to bottom of hero */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+              className="mt-auto pt-6"
+            >
+              <Button
+                size="lg"
+                variant="outline"
+                onClick={() => setView('explore')}
+                className="text-sm md:text-base px-6 md:px-8 h-12 md:h-13 rounded-full glass-card border-primary/20 hover:border-primary/40 backdrop-blur w-full sm:w-auto"
+              >
+                Browse Styles <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
             </motion.div>
           </div>
-
-          {/* Scroll hint */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.5 }}
-            className="flex flex-col items-center gap-2 mt-6 md:hidden"
-          >
-            <span className="text-[10px] text-muted-foreground tracking-widest uppercase">Scroll for stats</span>
-            <div className="w-5 h-8 border border-muted-foreground/40 rounded-full flex items-start justify-center p-1">
-              <div className="w-1 h-2 bg-primary/70 rounded-full animate-bounce" />
-            </div>
-          </motion.div>
         </div>
 
         </section>
