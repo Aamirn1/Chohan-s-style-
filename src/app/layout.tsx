@@ -49,8 +49,8 @@ export async function generateMetadata(): Promise<Metadata> {
       images: [
         {
           url: "/og-image.png",
-          width: 1344,
-          height: 768,
+          width: 1200,
+          height: 630,
           alt: "Chohan's Style Hub – Premium Hair Salon & Beauty Academy",
         },
       ],
