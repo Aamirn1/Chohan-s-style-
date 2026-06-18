@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Montserrat, Playfair_Display } from "next/font/google";
+import { headers } from "next/headers";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -17,41 +18,51 @@ const playfair = Playfair_Display({
   weight: ["400", "500", "600", "700", "800", "900"],
 });
 
-export const metadata: Metadata = {
-  title: "Chohan's Style Hub – Premium Hair Salon & Beauty Academy",
-  description: "Chohan's Style Hub – Multi-branch hair salon offering men's & women's services, bridal makeup, mehndi designs, and professional beauty courses. Book your appointment today!",
-  keywords: ["hair salon", "bridal makeup", "mehndi designs", "beauty courses", "men's salon", "women's salon", "Chohan's Style Hub", "hair styling", "Pakistan salon", "Lahore salon"],
-  authors: [{ name: "Chohan's Style Hub" }],
-  metadataBase: new URL("https://chohans-style-hub.vercel.app"),
-  icons: {
-    icon: [
-      { url: "/favicon.svg", type: "image/svg+xml" },
-    ],
-    apple: "/favicon.svg",
-    shortcut: "/favicon.svg",
-  },
-  openGraph: {
-    title: "Chohan's Style Hub – Premium Hair Salon & Beauty Academy",
-    description: "Multi-branch hair salon with men's & women's services, bridal packages, mehndi artistry, and professional beauty courses. Book your appointment today!",
-    siteName: "Chohan's Style Hub",
-    type: "website",
-    locale: "en_US",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1344,
-        height: 768,
-        alt: "Chohan's Style Hub – Premium Hair Salon & Beauty Academy",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Chohan's Style Hub – Premium Hair Salon & Beauty Academy",
-    description: "Multi-branch hair salon with men's & women's services, bridal packages, and professional beauty courses.",
-    images: ["/og-image.png"],
-  },
-};
+// Dynamically determine the site URL from the incoming request headers.
+// Works in sandbox, Vercel preview, and production — no hardcoded URL needed.
+async function getSiteUrl(): Promise<URL> {
+  const headerList = await headers();
+  const host = headerList.get("x-forwarded-host") || headerList.get("host") || "localhost:3000";
+  const protocol = headerList.get("x-forwarded-proto") || (host.startsWith("localhost") ? "http" : "https");
+  return new URL(`${protocol}://${host}`);
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const siteUrl = await getSiteUrl();
+  return {
+    title: "Chohan's Style Hub – Premium Salon & Academy",
+    description: "Premium multi-branch hair salon: bridal makeup, mehndi, men's & women's styling. Book your appointment today!",
+    keywords: ["hair salon", "bridal makeup", "mehndi designs", "beauty courses", "men's salon", "women's salon", "Chohan's Style Hub", "hair styling", "Pakistan salon", "Lahore salon"],
+    authors: [{ name: "Chohan's Style Hub" }],
+    metadataBase: siteUrl,
+    icons: {
+      icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
+      apple: "/favicon.svg",
+      shortcut: "/favicon.svg",
+    },
+    openGraph: {
+      title: "Chohan's Style Hub – Premium Salon & Academy",
+      description: "Premium hair salon: bridal makeup, mehndi, men's & women's styling. Book now!",
+      siteName: "Chohan's Style Hub",
+      type: "website",
+      locale: "en_US",
+      images: [
+        {
+          url: "/og-image.png",
+          width: 1344,
+          height: 768,
+          alt: "Chohan's Style Hub – Premium Hair Salon & Beauty Academy",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Chohan's Style Hub – Premium Salon & Academy",
+      description: "Premium hair salon: bridal makeup, mehndi, men's & women's styling. Book now!",
+      images: ["/og-image.png"],
+    },
+  };
+}
 
 export default function RootLayout({
   children,
