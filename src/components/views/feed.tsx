@@ -50,6 +50,7 @@ export function FeedView() {
   }
 
   if (posts.length === 0) {
+    const canPost = user && ['ADMIN', 'OWNER'].includes(user.role)
     return (
       <div className="container mx-auto px-4 py-20 text-center max-w-md">
         <div className="w-20 h-20 rounded-full bg-brand-gradient-soft mx-auto flex items-center justify-center mb-4">
@@ -59,17 +60,19 @@ export function FeedView() {
         <p className="text-muted-foreground mb-6">Follow stylists and other users to see their posts here, or explore all styles.</p>
         <div className="flex flex-col gap-2">
           <Button onClick={() => setView('explore')} className="bg-brand-gradient text-white">Explore Styles</Button>
-          <NewPostButton onPosted={() => load(true)} />
+          {canPost && <NewPostButton onPosted={() => load(true)} />}
         </div>
       </div>
     )
   }
 
+  const canPost = user && ['ADMIN', 'OWNER'].includes(user.role)
+
   return (
     <div className="container mx-auto px-4 py-6 pb-24 md:pb-6">
       <div className="flex items-center justify-between mb-4 max-w-xl mx-auto">
         <h1 className="font-display text-2xl font-bold">Your Feed</h1>
-        <NewPostButton onPosted={() => load(true)} />
+        {canPost && <NewPostButton onPosted={() => load(true)} />}
       </div>
       <div className="space-y-6">
         {posts.map((p) => <PostCard key={p.id} post={p} onDelete={() => onDelete(p.id)} />)}

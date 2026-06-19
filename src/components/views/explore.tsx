@@ -52,7 +52,7 @@ export function ExploreView() {
           <Compass className="w-5 h-5 text-primary" />
           <h1 className="font-display text-2xl font-bold">Explore</h1>
         </div>
-        {user && <NewPostButton onPosted={() => load(category, true)} />}
+        {user && ['ADMIN', 'OWNER'].includes(user.role) && <NewPostButton onPosted={() => load(category, true)} />}
       </div>
 
       <Tabs value={category} onValueChange={(v) => { setCategory(v); load(v) }} className="mb-6">

@@ -41,10 +41,13 @@ export async function GET(req: NextRequest) {
   return NextResponse.json({ posts: formatted, hasMore: posts.length === limit })
 }
 
-// CREATE post
+// CREATE post - only ADMIN and OWNER can upload
 export async function POST(req: NextRequest) {
   const user = await getCurrentUser(req)
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  if (!['ADMIN', 'OWNER'].includes(user.role)) {
+    return NextResponse.json({ error: 'Only administrators can upload posts. You can like, comment, and share posts in Explore.' }, { status: 403 })
+  }
   const { image, caption, category } = await req.json()
   if (!image) return NextResponse.json({ error: 'Image required' }, { status: 400 })
   const post = await db.post.create({
