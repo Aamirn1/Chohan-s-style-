@@ -325,3 +325,14 @@
     animation: typewriter 1.8s steps(34, end) 0.5s 1 both, blink-caret 0.75s step-end infinite;
   }
 }
+
+/* Rotating typewriter: types, holds, deletes, repeats for multiple messages */
+.typewriter-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background: var(--primary);
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: blink-caret 0.8s step-end infinite;
+}

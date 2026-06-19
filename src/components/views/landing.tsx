@@ -2,6 +2,7 @@
 
 import { useApp, apiFetch } from '@/lib/store'
 import { salonImage } from '@/lib/images'
+import { RotatingTypewriter } from '@/components/rotating-typewriter'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -47,7 +48,7 @@ export function LandingPage() {
 
         <div className="container mx-auto px-4 relative z-10 pt-8 pb-12 md:pt-20 md:pb-20 w-full">
           <div className="max-w-3xl">
-            {/* Badge */}
+            {/* Badge - rotating typewriter messages */}
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -56,7 +57,19 @@ export function LandingPage() {
             >
               <Badge className="glass-card border-primary/30 text-primary backdrop-blur px-4 py-1.5 text-[11px] md:text-xs font-medium tracking-wide">
                 <Sparkles className="w-3.5 h-3.5 mr-1.5 shrink-0" />
-                <span className="typewriter">PREMIUM SALON & BEAUTY ACADEMY</span>
+                <RotatingTypewriter
+                  messages={[
+                    'PREMIUM SALON & BEAUTY ACADEMY',
+                    'EXPERT BRIDAL MAKEUP & MEHNDI',
+                    'BOOK YOUR APPOINTMENT 24/7',
+                    'MEN\u2019S & WOMEN\u2019S STYLING EXPERTS',
+                    'PROFESSIONAL BEAUTY COURSES',
+                  ]}
+                  typeSpeed={50}
+                  deleteSpeed={28}
+                  holdTime={2200}
+                  startDelay={500}
+                />
               </Badge>
             </motion.div>
 
