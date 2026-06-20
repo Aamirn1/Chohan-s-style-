@@ -7,5 +7,7 @@
         <item name="android:windowBackground">#0F0F1A</item>
         <item name="android:statusBarColor">#0F0F1A</item>
         <item name="android:navigationBarColor">#0F0F1A</item>
+        <!-- Do NOT use fullscreen flags - let system bars show normally -->
+        <!-- Window insets are handled in MainActivity.java -->
     </style>
 </resources>

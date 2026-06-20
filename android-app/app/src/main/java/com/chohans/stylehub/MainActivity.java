@@ -2,6 +2,7 @@ package com.chohans.stylehub;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Build;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.webkit.WebSettings;
@@ -9,7 +10,8 @@ import android.webkit.CookieManager;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.os.Build;
+import android.graphics.Color;
+import android.widget.FrameLayout;
 
 public class MainActivity extends AppCompatActivity {
     private WebView webView;
@@ -19,15 +21,35 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Edge-to-edge fullscreen for true mobile view
+        // Set status bar color to match the app's dark theme
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-            );
+            getWindow().setStatusBarColor(Color.parseColor("#0F0F1A"));
+            getWindow().setNavigationBarColor(Color.parseColor("#0F0F1A"));
         }
 
+        // Use a FrameLayout so we can apply window inset padding
+        FrameLayout container = new FrameLayout(this);
+        setContentView(container);
+
         webView = new WebView(this);
-        setContentView(webView);
+
+        // Apply window insets so content doesn't go under status/nav bars
+        View decorView = getWindow().getDecorView();
+        decorView.setOnApplyWindowInsetsListener((v, insets) -> {
+            int statusBarHeight = 0;
+            int navBarHeight = 0;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                statusBarHeight = insets.getSystemWindowInsetTop();
+                navBarHeight = insets.getSystemWindowInsetBottom();
+            } else {
+                statusBarHeight = insets.getStableInsetTop();
+                navBarHeight = insets.getStableInsetBottom();
+            }
+            // Add padding for status bar (top) and navigation bar (bottom)
+            // This ensures the web content (including bottom nav) stays visible
+            container.setPadding(0, statusBarHeight, 0, navBarHeight);
+            return insets;
+        });
 
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
@@ -50,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
         webView.setWebViewClient(new WebViewClient());
         webView.loadUrl("https://chohan-s-style-dsaa.vercel.app/");
 
+        container.addView(webView);
+
         // Restore state if recreated
         if (savedInstanceState != null) {
             webView.restoreState(savedInstanceState);
@@ -64,7 +88,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        // Handle back button to navigate WebView history
         if (keyCode == KeyEvent.KEYCODE_BACK && webView.canGoBack()) {
             webView.goBack();
             return true;
