@@ -66,21 +66,20 @@ public class MainActivity extends AppCompatActivity {
                     "var s=document.createElement('style');" +
                     "s.id='app-layout-fix';" +
                     "s.textContent='" +
-                    // 1. Add padding to BODY for status bar at top only (NOT bottom - avoids gap)
+                    // 1. Add padding to BODY for status bar at top only
                     "body{padding-top:env(safe-area-inset-top)!important;padding-bottom:0!important;}" +
-                    // 2. Fix sticky top navbar: offset by status bar height so it's fully visible when scrolled
+                    // 2. Fix sticky top navbar: offset by status bar height
                     "header.sticky, header[class*=sticky]{top:env(safe-area-inset-top)!important;}" +
-                    // 3. Bottom nav: sit at bottom:0 with opaque background
-                    "nav.fixed, nav[class*=fixed]{bottom:0!important;background:rgb(28,26,38)!important;}" +
-                    // 4. Fix scroll-to-top button: position well ABOVE the bottom nav (6.5rem)
-                    "button[aria-label=\"Scroll to top\"]{bottom:6.5rem!important;}" +
-                    // 5. Hero section: reduce min-height so bottom nav is visible without scrolling
+                    // 3. Bottom nav: solid opaque background + visible top border + sit at bottom:0
+                    "nav.fixed, nav[class*=fixed]{bottom:0!important;background:#1c1a26!important;border-top:1px solid rgba(255,255,255,0.12)!important;box-shadow:0 -4px 20px rgba(0,0,0,0.4)!important;}" +
+                    // 4. Scroll-to-top: closer to bottom nav (5.5rem, was 6.5rem)
+                    "button[aria-label=\"Scroll to top\"]{bottom:5.5rem!important;}" +
+                    // 5. Hero section: reduce min-height so bottom nav is visible
                     "section[class*=min-h-]{min-height:calc(100svh - env(safe-area-inset-top))!important;}" +
                     // 6. Sheet/side menu: add safe-area padding so all options are visible
                     "[role=dialog], [data-radix-dialog-content]{padding-top:env(safe-area-inset-top)!important;padding-bottom:env(safe-area-inset-bottom)!important;}" +
                     "';" +
                     "document.head.appendChild(s);" +
-                    // Set viewport-fit=cover
                     "var m=document.querySelector('meta[name=viewport]');" +
                     "if(m){m.setAttribute('content','width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover');}" +
                     "})();";

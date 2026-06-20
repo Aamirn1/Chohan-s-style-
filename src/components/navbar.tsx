@@ -51,10 +51,7 @@ export function Navbar() {
   }
 
   return (
-    <header
-      className={`sticky z-40 transition-all duration-300 ${scrolled ? 'glass-card border-b border-border/40 shadow-lg' : 'bg-transparent'}`}
-      style={{ top: 'env(safe-area-inset-top, 0px)' }}
-    >
+    <header className={`sticky top-0 z-40 transition-all duration-300 ${scrolled ? 'glass-card border-b border-border/40 shadow-lg' : 'bg-transparent'}`}>
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo */}
         <button onClick={() => go('landing')} className="flex items-center gap-2 group">
@@ -117,10 +114,10 @@ export function Navbar() {
                 {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[300px] sm:w-80 bg-card border-border/40 p-0" style={{ paddingTop: 'env(safe-area-inset-top, 0px)', paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
+            <SheetContent side="right" className="w-[300px] sm:w-80 bg-card border-border/40 p-0">
               <div className="flex flex-col h-full">
                 {/* Brand header */}
-                <div className="flex items-center gap-3 px-5 pt-6 pb-5 border-b border-border/40 shrink-0">
+                <div className="flex items-center gap-3 px-5 pt-6 pb-5 border-b border-border/40">
                   <div className="w-11 h-11 rounded-full bg-brand-gradient flex items-center justify-center shadow-lg shrink-0">
                     <Scissors className="w-5 h-5 text-white" />
                   </div>
@@ -200,7 +197,7 @@ export function Navbar() {
                 </div>
 
                 {/* Footer - Login/Signup or Logout */}
-                <div className="px-3 py-4 border-t border-border/40 space-y-2 shrink-0">
+                <div className="px-3 py-4 border-t border-border/40 space-y-2">
                   {user ? (
                     <button onClick={handleLogout} className="w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium text-destructive hover:bg-destructive/10 transition-all">
                       <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 bg-destructive/20 border border-destructive/30">
