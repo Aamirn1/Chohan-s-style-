@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Gradient background -->
+    <path android:pathData="M0,0h108v108h-108z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:startColor="#D4A24E"
+                android:centerColor="#E07A3C"
+                android:endColor="#C73E7A"
+                android:angle="135" />
+        </aapt:attr>
+    </path>
+    <!-- Scissors icon (white) -->
+    <group
+        android:scaleX="2.5"
+        android:scaleY="2.5"
+        android:translateX="24"
+        android:translateY="24">
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M14.5,6c-2.5,0 -4.5,2 -4.5,4.5c0,1.5 0.7,2.8 1.8,3.6L4,22l1.4,1.4L13,15.8l4.6,4.6l3,3c-0.1,0.3 -0.1,0.6 -0.1,1c0,2.5 2,4.5 4.5,4.5s4.5,-2 4.5,-4.5s-2,-4.5 -4.5,-4.5c-1,0 -1.9,0.3 -2.6,0.9l-3,-3l3,-3l4.6,4.6L28,17.6l-6.6,-6.6c1.1,-0.8 1.8,-2.1 1.8,-3.6c0,-2.5 -2,-4.5 -4.5,-4.5c-1,0 -1.9,0.3 -2.6,0.9L12,8.4l4.6,4.6L13,16.6L9.4,13l3.6,-3.6c-0.6,-0.7 -1,-1.6 -1,-2.6c0,-0.6 0.1,-1.1 0.3,-1.6C13.4,6.2 14,6 14.5,6zM14.5,8c-1.4,0 -2.5,1.1 -2.5,2.5c0,1.4 1.1,2.5 2.5,2.5s2.5,-1.1 2.5,-2.5c0,-1.4 -1.1,-2.5 -2.5,-2.5zM19,10.5c0,1.4 1.1,2.5 2.5,2.5s2.5,-1.1 2.5,-2.5c0,-1.4 -1.1,-2.5 -2.5,-2.5s-2.5,1.1 -2.5,2.5zM25,19.5c-1.4,0 -2.5,1.1 -2.5,2.5c0,1.4 1.1,2.5 2.5,2.5s2.5,-1.1 2.5,-2.5c0,-1.4 -1.1,-2.5 -2.5,-2.5z" />
+    </group>
+</vector>
