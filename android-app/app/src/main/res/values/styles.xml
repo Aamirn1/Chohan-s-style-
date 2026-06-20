@@ -4,7 +4,7 @@
         <item name="colorPrimary">#D4A24E</item>
         <item name="colorPrimaryDark">#0F0F1A</item>
         <item name="colorAccent">#E07A3C</item>
-        <item name="android:windowBackground">#0F0F1A</item>
+        <item name="android:windowBackground">@drawable/splash</item>
         <item name="android:statusBarColor">#0F0F1A</item>
         <item name="android:navigationBarColor">#0F0F1A</item>
     </style>

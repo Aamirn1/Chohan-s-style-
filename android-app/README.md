@@ -11,3 +11,4 @@ cd android-app
 ./gradlew assembleDebug
 # APK at app/build/outputs/apk/debug/app-debug.apk
 ```
+# Build trigger: bottom nav always visible in WebView
