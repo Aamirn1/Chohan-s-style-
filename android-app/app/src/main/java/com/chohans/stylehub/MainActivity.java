@@ -21,15 +21,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Edge-to-edge: content fills entire screen including under status/nav bars
+        // Set system bar colors to match app theme
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(Color.parseColor("#0F0F1A"));
             getWindow().setNavigationBarColor(Color.parseColor("#0F0F1A"));
-            int flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                      | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                      | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
-            getWindow().getDecorView().setSystemUiVisibility(flags);
         }
+
+        // Do NOT use LAYOUT_FULLSCREEN or LAYOUT_HIDE_NAVIGATION.
+        // Let Android handle system bars normally - WebView content sits
+        // naturally between status bar (top) and navigation bar (bottom).
+        // This ensures the top nav bar is NEVER hidden.
 
         FrameLayout container = new FrameLayout(this);
         setContentView(container);
@@ -56,50 +57,39 @@ public class MainActivity extends AppCompatActivity {
         CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true);
 
         // Inject CSS/JS to fix layout for the app (WebView) only.
-        // This does NOT affect the website when viewed in a regular browser.
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
+                // Simple CSS - no env() or measurement needed since Android
+                // handles system bars. Only fix app-specific layout issues.
                 String js = "javascript:(function(){" +
                     "if(document.getElementById('app-layout-fix')) return;" +
-                    // Measure actual safe-area-inset-top (may be 0 in some WebViews)
-                    "var test=document.createElement('div');" +
-                    "test.style.paddingTop='env(safe-area-inset-top)';" +
-                    "test.style.position='absolute';" +
-                    "document.body.appendChild(test);" +
-                    "var sat=Math.ceil(test.getBoundingClientRect().height)||24;" +
-                    "document.body.removeChild(test);" +
-                    // Also measure safe-area-inset-bottom
-                    "var test2=document.createElement('div');" +
-                    "test2.style.paddingBottom='env(safe-area-inset-bottom)';" +
-                    "test2.style.position='absolute';" +
-                    "document.body.appendChild(test2);" +
-                    "var sab=Math.ceil(test2.getBoundingClientRect().height)||0;" +
-                    "document.body.removeChild(test2);" +
-                    // Set CSS variables with measured values
-                    "document.documentElement.style.setProperty('--app-sat', sat+'px');" +
-                    "document.documentElement.style.setProperty('--app-sab', sab+'px');" +
-                    // Create style element with CSS using var() for measured values
                     "var s=document.createElement('style');" +
                     "s.id='app-layout-fix';" +
                     "s.textContent=" +
-                    "\"body{padding-top:var(--app-sat)!important;padding-bottom:0!important;}\"" +
-                    "+\"header.sticky,header[class*=sticky]{top:var(--app-sat)!important;}\"" +
-                    "+\"nav.fixed,nav[class*=fixed]{bottom:0!important;background:#1c1a26!important;border-top:1px solid rgba(255,255,255,0.12)!important;box-shadow:0 -4px 20px rgba(0,0,0,0.4)!important;}\"" +
+                    // 1. Bottom nav: solid opaque background at bottom:0
+                    "\"nav.fixed,nav[class*=fixed]{bottom:0!important;background:#1c1a26!important;border-top:1px solid rgba(255,255,255,0.12)!important;box-shadow:0 -4px 20px rgba(0,0,0,0.4)!important;}\"" +
+                    // 2. Scroll-to-top: above bottom nav
                     "+\"button[aria-label=\\\"Scroll to top\\\"]{bottom:7rem!important;}\"" +
-                    "+\"section[class*=min-h-]{min-height:calc(100svh - var(--app-sat) - 5rem)!important;}\"" +
+                    // 3. Hero section: fit content above bottom nav (leave 5rem space)
+                    "+\"section[class*=min-h-]{min-height:calc(100svh - 5rem)!important;}\"" +
+                    // 4. Hero content: minimal top padding, space at bottom
                     "+\"section[class*=min-h-] > div[class*=container]{padding-top:0.5rem!important;padding-bottom:1.5rem!important;}\"" +
+                    // 5. Headline: professional sizing
                     "+\"section[class*=min-h-] h1{font-size:2.25rem!important;line-height:1.1!important;margin-top:0.5rem!important;margin-bottom:0.75rem!important;letter-spacing:-0.02em!important;}\"" +
+                    // 6. Paragraph: readable
                     "+\"section[class*=min-h-] p{font-size:0.95rem!important;line-height:1.6!important;margin-bottom:1.5rem!important;color:rgba(255,255,255,0.75)!important;}\"" +
+                    // 7. Button row spacing
                     "+\"section[class*=min-h-] div[class*=flex][class*=gap]{margin-bottom:1.5rem!important;}\"" +
+                    // 8. Buttons: consistent height
                     "+\"section[class*=min-h-] a[class*=btn],section[class*=min-h-] button[class*=btn]{height:3rem!important;}\"" +
+                    // 9. Typewriter cursor
                     "+\".typewriter-cursor{display:inline-block!important;width:2px!important;height:1em!important;background:#D4A24E!important;margin-left:2px!important;animation:blink-caret 0.8s step-end infinite!important;}\"" +
-                    "+\"[role=dialog],[data-radix-dialog-content]{padding-top:var(--app-sat)!important;padding-bottom:var(--app-sab)!important;}\"" +
+                    // 10. Sheet/side menu: add some padding at top/bottom for safety
+                    "+\"[role=dialog],[data-radix-dialog-content]{padding-top:1rem!important;padding-bottom:1rem!important;}\"" +
                     ";" +
                     "document.head.appendChild(s);" +
-                    "var m=document.querySelector('meta[name=viewport]');" +
-                    "if(m){m.setAttribute('content','width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover');}" +
                     // Fix rating line via JavaScript with retry
                     "var fixRating=function(){" +
                     "var r=null;" +
