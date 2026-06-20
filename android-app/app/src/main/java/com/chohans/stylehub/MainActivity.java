@@ -63,70 +63,77 @@ public class MainActivity extends AppCompatActivity {
                 super.onPageFinished(view, url);
                 String js = "javascript:(function(){" +
                     "if(document.getElementById('app-layout-fix')) return;" +
+                    // Measure actual safe-area-inset-top (may be 0 in some WebViews)
+                    "var test=document.createElement('div');" +
+                    "test.style.paddingTop='env(safe-area-inset-top)';" +
+                    "test.style.position='absolute';" +
+                    "document.body.appendChild(test);" +
+                    "var sat=Math.ceil(test.getBoundingClientRect().height)||24;" +
+                    "document.body.removeChild(test);" +
+                    // Also measure safe-area-inset-bottom
+                    "var test2=document.createElement('div');" +
+                    "test2.style.paddingBottom='env(safe-area-inset-bottom)';" +
+                    "test2.style.position='absolute';" +
+                    "document.body.appendChild(test2);" +
+                    "var sab=Math.ceil(test2.getBoundingClientRect().height)||0;" +
+                    "document.body.removeChild(test2);" +
+                    // Create style with MEASURED values (not env() which may fail)
                     "var s=document.createElement('style');" +
                     "s.id='app-layout-fix';" +
                     "s.textContent='" +
-                    // 1. Add padding to BODY for status bar at top only
-                    "body{padding-top:env(safe-area-inset-top)!important;padding-bottom:0!important;}" +
-                    // 2. Fix sticky top navbar: offset by status bar height
-                    "header.sticky, header[class*=sticky]{top:env(safe-area-inset-top)!important;}" +
-                    // 3. Bottom nav: solid opaque background + visible top border + sit at bottom:0
+                    // 1. Body: padding-top for status bar (using measured value)
+                    "body{padding-top:' + sat + 'px!important;padding-bottom:0!important;}" +
+                    // 2. Header: sticky at measured status bar height
+                    "header.sticky, header[class*=sticky]{top:' + sat + 'px!important;}" +
+                    // 3. Bottom nav: solid background at bottom:0
                     "nav.fixed, nav[class*=fixed]{bottom:0!important;background:#1c1a26!important;border-top:1px solid rgba(255,255,255,0.12)!important;box-shadow:0 -4px 20px rgba(0,0,0,0.4)!important;}" +
                     // 4. Scroll-to-top: above bottom nav
-                    "button[aria-label=\"Scroll to top\"]{bottom:7rem!important;}" +
-                    // 5. Hero section: reduce min-height so content + bottom nav fit on screen
-                    "section[class*=min-h-]{min-height:calc(100svh - env(safe-area-inset-top) - 4rem)!important;}" +
-                    // 6. Move hero content UP: reduce top padding
-                    "section[class*=min-h-] > div[class*=container]{padding-top:0.5rem!important;padding-bottom:1rem!important;}" +
-                    // 7. Professional headline
-                    "section[class*=min-h-] h1{font-size:2.25rem!important;line-height:1.1!important;margin-top:0.5rem!important;margin-bottom:0.75rem!important;letter-spacing:-0.02em!important;}" +
-                    // 8. Professional paragraph
-                    "section[class*=min-h-] p{font-size:0.95rem!important;line-height:1.6!important;margin-bottom:1.5rem!important;color:rgba(255,255,255,0.75)!important;}" +
-                    // 9. Button row spacing
-                    "section[class*=min-h-] div[class*=flex][class*=gap]{margin-bottom:1.5rem!important;}" +
+                    "button[aria-label=\"Scroll to top\"]{bottom:7rem!important;}' +
+                    // 5. Hero section: fit content + leave space for bottom nav (5rem)
+                    'section[class*=min-h-]{min-height:calc(100svh - ' + sat + 'px - 5rem)!important;}' +
+                    // 6. Hero content: minimal top padding (text starts right below nav bar)
+                    'section[class*=min-h-] > div[class*=container]{padding-top:0.5rem!important;padding-bottom:1.5rem!important;}' +
+                    // 7. Headline: professional sizing
+                    'section[class*=min-h-] h1{font-size:2.25rem!important;line-height:1.1!important;margin-top:0.5rem!important;margin-bottom:0.75rem!important;letter-spacing:-0.02em!important;}' +
+                    // 8. Paragraph: readable
+                    'section[class*=min-h-] p{font-size:0.95rem!important;line-height:1.6!important;margin-bottom:1.5rem!important;color:rgba(255,255,255,0.75)!important;}' +
+                    // 9. Button row: spacing
+                    'section[class*=min-h-] div[class*=flex][class*=gap]{margin-bottom:1.5rem!important;}' +
                     // 10. Buttons: consistent height
-                    "section[class*=min-h-] a[class*=btn], section[class*=min-h-] button[class*=btn]{height:3rem!important;}" +
-                    // 11. Ensure typewriter cursor (blinking bar) is visible
-                    ".typewriter-cursor{display:inline-block!important;width:2px!important;height:1em!important;background:#D4A24E!important;margin-left:2px!important;animation:blink-caret 0.8s step-end infinite!important;}" +
-                    // 12. Sheet/side menu: add safe-area padding
-                    "[role=dialog], [data-radix-dialog-content]{padding-top:env(safe-area-inset-top)!important;padding-bottom:env(safe-area-inset-bottom)!important;}" +
-                    "';" +
+                    'section[class*=min-h-] a[class*=btn], section[class*=min-h-] button[class*=btn]{height:3rem!important;}' +
+                    // 11. Typewriter cursor
+                    '.typewriter-cursor{display:inline-block!important;width:2px!important;height:1em!important;background:#D4A24E!important;margin-left:2px!important;animation:blink-caret 0.8s step-end infinite!important;}' +
+                    // 12. Sheet/side menu: safe-area padding
+                    '[role=dialog], [data-radix-dialog-content]{padding-top:' + sat + 'px!important;padding-bottom:' + sab + 'px!important;}' +
+                    '';" +
                     "document.head.appendChild(s);" +
                     "var m=document.querySelector('meta[name=viewport]');" +
                     "if(m){m.setAttribute('content','width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover');}" +
-                    // 13. Fix rating line via JavaScript with retry (waits for React render)
+                    // 13. Fix rating line via JavaScript with retry
                     "var fixRating=function(){" +
-                    "var r=document.querySelector('div.flex.items-center.gap-4.text-sm.text-muted-foreground');" +
-                    "if(!r){" +
-                    "// Try alternate selector" +
+                    "var r=null;" +
                     "var all=document.querySelectorAll('div[class*=gap-4]');" +
                     "for(var k=0;k<all.length;k++){" +
                     "if(all[k].querySelector('svg.lucide-star')&&all[k].textContent.indexOf('Trusted')>-1){" +
                     "r=all[k];break;" +
                     "}" +
                     "}" +
-                    "}" +
                     "if(!r) return false;" +
-                    // Force inline styles - override everything
                     "r.style.cssText+=';flex-wrap:nowrap!important;white-space:nowrap!important;align-items:center!important;gap:0.5rem!important;overflow:visible!important;display:flex!important;'" +
-                    // Fix all children
                     "var kids=r.children;" +
                     "for(var i=0;i<kids.length;i++){" +
                     "kids[i].style.cssText+=';flex-shrink:0!important;white-space:nowrap!important;'" +
                     "}" +
-                    // Fix nested divs
                     "var nested=r.querySelectorAll('div');" +
                     "for(var n=0;n<nested.length;n++){" +
                     "nested[n].style.cssText+=';flex-wrap:nowrap!important;flex-shrink:0!important;'" +
                     "}" +
-                    // Fix star icons - smaller to save space
                     "var svgs=r.querySelectorAll('svg');" +
                     "for(var j=0;j<svgs.length;j++){" +
                     "svgs[j].style.cssText+=';width:12px!important;height:12px!important;flex-shrink:0!important;'" +
                     "}" +
                     "return true;" +
                     "};" +
-                    // Try immediately, then retry every 300ms for 5 seconds (React renders async)
                     "var tries=0;" +
                     "var interval=setInterval(function(){" +
                     "tries++;" +
