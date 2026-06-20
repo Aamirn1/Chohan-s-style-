@@ -51,7 +51,10 @@ export function Navbar() {
   }
 
   return (
-    <header className={`sticky top-0 z-40 transition-all duration-300 ${scrolled ? 'glass-card border-b border-border/40 shadow-lg' : 'bg-transparent'}`}>
+    <header
+      className={`sticky z-40 transition-all duration-300 ${scrolled ? 'glass-card border-b border-border/40 shadow-lg' : 'bg-transparent'}`}
+      style={{ top: 'env(safe-area-inset-top, 0px)' }}
+    >
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo */}
         <button onClick={() => go('landing')} className="flex items-center gap-2 group">
