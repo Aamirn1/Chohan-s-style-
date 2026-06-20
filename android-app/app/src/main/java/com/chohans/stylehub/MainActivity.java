@@ -65,10 +65,10 @@ public class MainActivity extends AppCompatActivity {
                     "\"nav.fixed,nav[class*=fixed]{bottom:0!important;background:#1c1a26!important;border-top:1px solid rgba(255,255,255,0.12)!important;box-shadow:0 -4px 20px rgba(0,0,0,0.4)!important;}\"" +
                     // 2. Scroll-to-top: above bottom nav
                     "+\"button[aria-label=\\\"Scroll to top\\\"]{bottom:7rem!important;}\"" +
-                    // 3. Hero section: leave 4rem for bottom nav (compact - content fills screen)
-                    "+\"section[class*=min-h-]{min-height:calc(100svh - 4rem)!important;}\"" +
-                    // 4. Hero content: text close to top nav (0.5rem top), close to bottom nav (0.5rem bottom)
-                    "+\"section[class*=min-h-] > div[class*=container]{padding-top:0.5rem!important;padding-bottom:0.5rem!important;}\"" +
+                    // 3. Hero section: full screen height, subtract bottom nav (4rem)
+                    "+\"section[class*=min-h-]{min-height:calc(100svh - 4rem)!important;display:flex!important;align-items:center!important;justify-content:center!important;}\"" +
+                    // 4. Hero content: vertically centered with comfortable bottom breathing room
+                    "+\"section[class*=min-h-] > div[class*=container]{padding-top:1rem!important;padding-bottom:5rem!important;max-width:100%!important;}\"" +
                     // 5. Headline: professional sizing
                     "+\"section[class*=min-h-] h1{font-size:2.25rem!important;line-height:1.1!important;margin-top:0.5rem!important;margin-bottom:0.75rem!important;letter-spacing:-0.02em!important;}\"" +
                     // 6. Paragraph: readable
