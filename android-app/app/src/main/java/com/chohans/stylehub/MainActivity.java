@@ -86,12 +86,12 @@ public class MainActivity extends AppCompatActivity {
                     "section[class*=min-h-] div[class*=flex][class*=gap]{margin-bottom:1.5rem!important;}" +
                     // 10. Buttons: consistent height and padding
                     "section[class*=min-h-] a[class*=btn], section[class*=min-h-] button[class*=btn]{height:3rem!important;}" +
-                    // 11. Rating line: force ALL elements on same line, smaller font to fit
-                    "section[class*=min-h-] div[class*=items-center][class*=gap-4]{flex-wrap:nowrap!important;align-items:center!important;font-size:0.8rem!important;gap:0.5rem!important;}" +
-                    "section[class*=min-h-] div[class*=items-center][class*=gap-4] > div{flex-wrap:nowrap!important;align-items:center!important;gap:0.25rem!important;}" +
-                    "section[class*=min-h-] div[class*=items-center][class*=gap-4] > span{line-height:1!important;white-space:nowrap!important;}" +
-                    "section[class*=min-h-] div[class*=items-center][class*=gap-4] svg{vertical-align:middle!important;width:12px!important;height:12px!important;}" +
-                    "section[class*=min-h-] div[class*=items-center][class*=gap-4] span[class*=font-semibold]{font-size:0.85rem!important;}" +
+                    // 11. Rating line: force ALL on ONE line - small font, no wrap, no shrink
+                    "section[class*=min-h-] div[class*=items-center][class*=gap-4]{flex-wrap:nowrap!important;align-items:center!important;font-size:0.7rem!important;gap:0.4rem!important;overflow:visible!important;}" +
+                    "section[class*=min-h-] div[class*=items-center][class*=gap-4] > div{flex-wrap:nowrap!important;align-items:center!important;gap:0.2rem!important;flex-shrink:0!important;}" +
+                    "section[class*=min-h-] div[class*=items-center][class*=gap-4] > span{line-height:1!important;white-space:nowrap!important;flex-shrink:0!important;}" +
+                    "section[class*=min-h-] div[class*=items-center][class*=gap-4] svg{vertical-align:middle!important;width:10px!important;height:10px!important;flex-shrink:0!important;}" +
+                    "section[class*=min-h-] div[class*=items-center][class*=gap-4] span[class*=font-semibold]{font-size:0.75rem!important;}" +
                     // 12. Ensure typewriter cursor (blinking bar) is visible in the badge
                     ".typewriter-cursor{display:inline-block!important;width:2px!important;height:1em!important;background:#D4A24E!important;margin-left:2px!important;animation:blink-caret 0.8s step-end infinite!important;}" +
                     // 13. Sheet/side menu: add safe-area padding so all options are visible
