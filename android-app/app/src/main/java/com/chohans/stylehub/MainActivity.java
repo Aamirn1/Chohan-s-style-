@@ -21,35 +21,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Set status bar color to match the app's dark theme
+        // Edge-to-edge: content fills entire screen including under status/nav bars
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(Color.parseColor("#0F0F1A"));
             getWindow().setNavigationBarColor(Color.parseColor("#0F0F1A"));
+            // Let content draw behind system bars
+            int flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                      | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                      | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
+            getWindow().getDecorView().setSystemUiVisibility(flags);
         }
 
-        // Use a FrameLayout so we can apply window inset padding
         FrameLayout container = new FrameLayout(this);
         setContentView(container);
 
         webView = new WebView(this);
-
-        // Apply window insets so content doesn't go under status/nav bars
-        View decorView = getWindow().getDecorView();
-        decorView.setOnApplyWindowInsetsListener((v, insets) -> {
-            int statusBarHeight = 0;
-            int navBarHeight = 0;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                statusBarHeight = insets.getSystemWindowInsetTop();
-                navBarHeight = insets.getSystemWindowInsetBottom();
-            } else {
-                statusBarHeight = insets.getStableInsetTop();
-                navBarHeight = insets.getStableInsetBottom();
-            }
-            // Add padding for status bar (top) and navigation bar (bottom)
-            // This ensures the web content (including bottom nav) stays visible
-            container.setPadding(0, statusBarHeight, 0, navBarHeight);
-            return insets;
-        });
+        container.addView(webView);
 
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
@@ -64,17 +51,45 @@ public class MainActivity extends AppCompatActivity {
         settings.setMediaPlaybackRequiresUserGesture(false);
         settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
+        settings.setCacheMode(WebSettings.LOAD_DEFAULT);
+        settings.setAppCacheEnabled(true);
+        settings.setAppCachePath(getCacheDir().getAbsolutePath());
 
         // Enable cookies (needed for auth/login)
         CookieManager.getInstance().setAcceptCookie(true);
         CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true);
 
-        webView.setWebViewClient(new WebViewClient());
+        // Inject CSS to add safe-area padding so content doesn't hide under system bars
+        // This ONLY affects the app (WebView), not the website when viewed in a browser
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                // Add padding for status bar (top) and navigation bar (bottom)
+                // Uses CSS env() for safe-area-inset which Android WebView supports
+                String css = "javascript:(function(){" +
+                    "var style = document.createElement('style');" +
+                    "style.type = 'text/css';" +
+                    "style.id = 'app-safe-area';" +
+                    // Add top padding for status bar, bottom padding for nav bar
+                    // Also ensure the bottom nav is always visible
+                    "style.innerHTML = '" +
+                    "html { padding-top: env(safe-area-inset-top) !important; }" +
+                    "body { padding-bottom: env(safe-area-inset-bottom) !important; }" +
+                    // Make sure the sticky bottom nav stays above the system nav bar
+                    "nav.fixed, [class*=fixed][class*=bottom] { bottom: env(safe-area-inset-bottom) !important; }" +
+                    "';" +
+                    "document.head.appendChild(style);" +
+                    // Also set viewport-fit=cover so env() values work
+                    "var meta = document.querySelector('meta[name=viewport]');" +
+                    "if(meta) { meta.setAttribute('content','width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover'); }" +
+                    "})();";
+                view.evaluateJavascript(css, null);
+            }
+        });
+
         webView.loadUrl("https://chohan-s-style-dsaa.vercel.app/");
 
-        container.addView(webView);
-
-        // Restore state if recreated
         if (savedInstanceState != null) {
             webView.restoreState(savedInstanceState);
         }
