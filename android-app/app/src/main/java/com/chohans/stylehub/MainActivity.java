@@ -72,11 +72,17 @@ public class MainActivity extends AppCompatActivity {
                     "header.sticky, header[class*=sticky]{top:env(safe-area-inset-top)!important;}" +
                     // 3. Bottom nav: solid opaque background + visible top border + sit at bottom:0
                     "nav.fixed, nav[class*=fixed]{bottom:0!important;background:#1c1a26!important;border-top:1px solid rgba(255,255,255,0.12)!important;box-shadow:0 -4px 20px rgba(0,0,0,0.4)!important;}" +
-                    // 4. Scroll-to-top: closer to bottom nav (5.5rem, was 6.5rem)
-                    "button[aria-label=\"Scroll to top\"]{bottom:5.5rem!important;}" +
-                    // 5. Hero section: reduce min-height so bottom nav is visible
-                    "section[class*=min-h-]{min-height:calc(100svh - env(safe-area-inset-top))!important;}" +
-                    // 6. Sheet/side menu: add safe-area padding so all options are visible
+                    // 4. Scroll-to-top: move UP to not cover Profile icon (7rem = above nav bar entirely)
+                    "button[aria-label=\"Scroll to top\"]{bottom:7rem!important;}" +
+                    // 5. Hero section: reduce min-height so content + bottom nav fit on screen
+                    "section[class*=min-h-]{min-height:calc(100svh - env(safe-area-inset-top) - 4rem)!important;}" +
+                    // 6. Move hero content UP: reduce top padding so content starts right below header
+                    "section[class*=min-h-] > div[class*=container]{padding-top:0.5rem!important;padding-bottom:1rem!important;}" +
+                    // 7. Reduce gaps between hero elements to fit everything above bottom nav
+                    "section[class*=min-h-] h1{margin-top:0.5rem!important;margin-bottom:0.75rem!important;}" +
+                    "section[class*=min-h-] p{margin-bottom:1rem!important;}" +
+                    "section[class*=min-h-] div[class*=flex][class*=gap]{margin-bottom:1rem!important;}" +
+                    // 8. Sheet/side menu: add safe-area padding so all options are visible
                     "[role=dialog], [data-radix-dialog-content]{padding-top:env(safe-area-inset-top)!important;padding-bottom:env(safe-area-inset-bottom)!important;}" +
                     "';" +
                     "document.head.appendChild(s);" +
