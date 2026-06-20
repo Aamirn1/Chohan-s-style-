@@ -70,11 +70,10 @@ public class MainActivity extends AppCompatActivity {
                     "body{padding-top:env(safe-area-inset-top)!important;padding-bottom:0!important;}" +
                     // 2. Fix sticky top navbar: offset by status bar height so it's fully visible when scrolled
                     "header.sticky, header[class*=sticky]{top:env(safe-area-inset-top)!important;}" +
-                    // 3. Bottom nav: sit at bottom:0 - the nav's internal paddingBottom handles safe-area
-                    //    This avoids the big gap between nav and system buttons
-                    "nav.fixed, nav[class*=fixed]{bottom:0!important;}" +
-                    // 4. Fix scroll-to-top button: position ABOVE the bottom nav (5rem = 80px nav height)
-                    "button[aria-label=\"Scroll to top\"]{bottom:5.5rem!important;}" +
+                    // 3. Bottom nav: sit at bottom:0 with opaque background
+                    "nav.fixed, nav[class*=fixed]{bottom:0!important;background:rgb(28,26,38)!important;}" +
+                    // 4. Fix scroll-to-top button: position well ABOVE the bottom nav (6.5rem)
+                    "button[aria-label=\"Scroll to top\"]{bottom:6.5rem!important;}" +
                     // 5. Hero section: reduce min-height so bottom nav is visible without scrolling
                     "section[class*=min-h-]{min-height:calc(100svh - env(safe-area-inset-top))!important;}" +
                     // 6. Sheet/side menu: add safe-area padding so all options are visible

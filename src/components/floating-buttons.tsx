@@ -18,7 +18,7 @@ export function FloatingButtons() {
     <button
       onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
       className="fixed right-4 z-30 w-9 h-9 rounded-full glass-card flex items-center justify-center hover:scale-110 transition-transform shadow-lg"
-      style={{ bottom: 'calc(5rem + env(safe-area-inset-bottom, 0px))' }}
+      style={{ bottom: 'calc(6.5rem + env(safe-area-inset-bottom, 0px))' }}
       aria-label="Scroll to top"
     >
       <ArrowUp className="w-4 h-4 text-primary" />
