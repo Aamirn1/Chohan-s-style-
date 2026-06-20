@@ -82,10 +82,10 @@ public class MainActivity extends AppCompatActivity {
                     "section[class*=min-h-] h1{margin-top:0.5rem!important;margin-bottom:0.75rem!important;line-height:1.1!important;}" +
                     "section[class*=min-h-] p{margin-bottom:1.25rem!important;line-height:1.6!important;}" +
                     "section[class*=min-h-] div[class*=flex][class*=gap]{margin-bottom:1.25rem!important;}" +
-                    // 8. Fix rating line alignment: stars + 4.9 + bullet + "Trusted by" on same baseline
-                    "section[class*=min-h-] div[class*=items-center][class*=gap-4]{align-items:center!important;display:flex!important;}" +
-                    "section[class*=min-h-] div[class*=items-center][class*=gap-4] > div{align-items:center!important;display:flex!important;}" +
-                    "section[class*=min-h-] div[class*=items-center][class*=gap-4] > span{line-height:1!important;}" +
+                    // 8. Fix rating line: force stars+4.9 and "Trusted by" on SAME line (no wrap)
+                    "section[class*=min-h-] div[class*=items-center][class*=gap-4]{flex-wrap:nowrap!important;white-space:nowrap!important;align-items:center!important;}" +
+                    "section[class*=min-h-] div[class*=items-center][class*=gap-4] > div{flex-wrap:nowrap!important;white-space:nowrap!important;align-items:center!important;}" +
+                    "section[class*=min-h-] div[class*=items-center][class*=gap-4] > span{line-height:1!important;white-space:nowrap!important;}" +
                     "section[class*=min-h-] div[class*=items-center][class*=gap-4] svg{vertical-align:middle!important;}" +
                     // 9. Sheet/side menu: add safe-area padding so all options are visible
                     "[role=dialog], [data-radix-dialog-content]{padding-top:env(safe-area-inset-top)!important;padding-bottom:env(safe-area-inset-bottom)!important;}" +
