@@ -66,17 +66,19 @@ public class MainActivity extends AppCompatActivity {
                     "var s=document.createElement('style');" +
                     "s.id='app-layout-fix';" +
                     "s.textContent='" +
-                    // 1. Set viewport-fit=cover so env(safe-area-inset-*) works
-                    // 2. Add padding to BODY (not html) for status bar at top
+                    // 1. Add padding to BODY for status bar at top only (NOT bottom - avoids gap)
                     "body{padding-top:env(safe-area-inset-top)!important;padding-bottom:0!important;}" +
-                    // 3. Fix sticky top navbar: offset by status bar height so it's fully visible when scrolled
+                    // 2. Fix sticky top navbar: offset by status bar height so it's fully visible when scrolled
                     "header.sticky, header[class*=sticky]{top:env(safe-area-inset-top)!important;}" +
-                    // 4. Fix bottom nav: sit right above system navigation bar (no gap)
-                    "nav.fixed, nav[class*=fixed], [class*=fixed][class*=bottom-0]{bottom:env(safe-area-inset-bottom)!important;}" +
-                    // 5. Fix scroll-to-top button: position ABOVE the bottom nav, not below it
-                    "button[aria-label=\"Scroll to top\"]{bottom:calc(5rem + env(safe-area-inset-bottom))!important;}" +
-                    // 6. Hero section: reduce min-height so bottom nav is visible without scrolling
+                    // 3. Bottom nav: sit at bottom:0 - the nav's internal paddingBottom handles safe-area
+                    //    This avoids the big gap between nav and system buttons
+                    "nav.fixed, nav[class*=fixed]{bottom:0!important;}" +
+                    // 4. Fix scroll-to-top button: position ABOVE the bottom nav (5rem = 80px nav height)
+                    "button[aria-label=\"Scroll to top\"]{bottom:5.5rem!important;}" +
+                    // 5. Hero section: reduce min-height so bottom nav is visible without scrolling
                     "section[class*=min-h-]{min-height:calc(100svh - env(safe-area-inset-top))!important;}" +
+                    // 6. Sheet/side menu: add safe-area padding so all options are visible
+                    "[role=dialog], [data-radix-dialog-content]{padding-top:env(safe-area-inset-top)!important;padding-bottom:env(safe-area-inset-bottom)!important;}" +
                     "';" +
                     "document.head.appendChild(s);" +
                     // Set viewport-fit=cover
