@@ -6,17 +6,19 @@ import { useEffect, useState } from 'react'
 
 export function BottomNav() {
   const { view, setView, user, openAuth } = useApp()
+  // In the Android app (WebView), always show the bottom nav
+  const isApp = typeof window !== 'undefined' && /Android.*wv/i.test(navigator.userAgent)
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
     const handler = () => {
-      // Show after scrolling past hero on landing, always on other pages
-      setVisible(window.scrollY > 300 || view !== 'landing')
+      // Show after scrolling past hero on landing, always on other pages, always in app
+      setVisible(window.scrollY > 300 || view !== 'landing' || isApp)
     }
     handler()
     window.addEventListener('scroll', handler)
     return () => window.removeEventListener('scroll', handler)
-  }, [view])
+  }, [view, isApp])
 
   function go(v: any) {
     if ((v === 'profile' || v === 'booking') && !user) {
