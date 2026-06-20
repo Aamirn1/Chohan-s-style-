@@ -94,34 +94,44 @@ public class MainActivity extends AppCompatActivity {
                     "document.head.appendChild(s);" +
                     "var m=document.querySelector('meta[name=viewport]');" +
                     "if(m){m.setAttribute('content','width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover');}" +
-                    // 13. Fix rating line via JavaScript: force on one line at ORIGINAL font size
+                    // 13. Fix rating line via JavaScript with retry (waits for React render)
                     "var fixRating=function(){" +
-                    "var r=document.querySelector('section[class*=min-h-] div[class*=items-center][class*=gap-4]');" +
-                    "if(!r) return;" +
-                    "r.style.flexWrap='nowrap';" +
-                    "r.style.whiteSpace='nowrap';" +
-                    "r.style.alignItems='center';" +
-                    "r.style.overflow='visible';" +
-                    // Keep original font size (14px from text-sm) - do NOT reduce it
-                    // Reduce gap slightly to fit on narrow screens
-                    "r.style.gap='0.5rem';" +
-                    // Set all children to not shrink
+                    "var r=document.querySelector('div.flex.items-center.gap-4.text-sm.text-muted-foreground');" +
+                    "if(!r){" +
+                    "// Try alternate selector" +
+                    "var all=document.querySelectorAll('div[class*=gap-4]');" +
+                    "for(var k=0;k<all.length;k++){" +
+                    "if(all[k].querySelector('svg.lucide-star')&&all[k].textContent.indexOf('Trusted')>-1){" +
+                    "r=all[k];break;" +
+                    "}" +
+                    "}" +
+                    "}" +
+                    "if(!r) return false;" +
+                    // Force inline styles - override everything
+                    "r.style.cssText+=';flex-wrap:nowrap!important;white-space:nowrap!important;align-items:center!important;gap:0.5rem!important;overflow:visible!important;display:flex!important;'" +
+                    // Fix all children
                     "var kids=r.children;" +
                     "for(var i=0;i<kids.length;i++){" +
-                    "kids[i].style.flexShrink='0';" +
-                    "kids[i].style.whiteSpace='nowrap';" +
+                    "kids[i].style.cssText+=';flex-shrink:0!important;white-space:nowrap!important;'" +
                     "}" +
-                    // Reduce star icon size slightly (not text size)
+                    // Fix nested divs
+                    "var nested=r.querySelectorAll('div');" +
+                    "for(var n=0;n<nested.length;n++){" +
+                    "nested[n].style.cssText+=';flex-wrap:nowrap!important;flex-shrink:0!important;'" +
+                    "}" +
+                    // Fix star icons - smaller to save space
                     "var svgs=r.querySelectorAll('svg');" +
                     "for(var j=0;j<svgs.length;j++){" +
-                    "svgs[j].style.width='12px';" +
-                    "svgs[j].style.height='12px';" +
-                    "svgs[j].style.flexShrink='0';" +
+                    "svgs[j].style.cssText+=';width:12px!important;height:12px!important;flex-shrink:0!important;'" +
                     "}" +
+                    "return true;" +
                     "};" +
-                    "fixRating();" +
-                    "setTimeout(fixRating,500);" +
-                    "setTimeout(fixRating,1500);" +
+                    // Try immediately, then retry every 300ms for 5 seconds (React renders async)
+                    "var tries=0;" +
+                    "var interval=setInterval(function(){" +
+                    "tries++;" +
+                    "if(fixRating()||tries>16){clearInterval(interval);}" +
+                    "},300);" +
                     "})();";
                 view.evaluateJavascript(js, null);
             }
