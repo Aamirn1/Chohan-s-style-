@@ -77,39 +77,30 @@ public class MainActivity extends AppCompatActivity {
                     "document.body.appendChild(test2);" +
                     "var sab=Math.ceil(test2.getBoundingClientRect().height)||0;" +
                     "document.body.removeChild(test2);" +
-                    // Create style with MEASURED values (not env() which may fail)
+                    // Set CSS variables with measured values
+                    "document.documentElement.style.setProperty('--app-sat', sat+'px');" +
+                    "document.documentElement.style.setProperty('--app-sab', sab+'px');" +
+                    // Create style element with CSS using var() for measured values
                     "var s=document.createElement('style');" +
                     "s.id='app-layout-fix';" +
-                    "s.textContent='" +
-                    // 1. Body: padding-top for status bar (using measured value)
-                    "body{padding-top:' + sat + 'px!important;padding-bottom:0!important;}" +
-                    // 2. Header: sticky at measured status bar height
-                    "header.sticky, header[class*=sticky]{top:' + sat + 'px!important;}" +
-                    // 3. Bottom nav: solid background at bottom:0
-                    "nav.fixed, nav[class*=fixed]{bottom:0!important;background:#1c1a26!important;border-top:1px solid rgba(255,255,255,0.12)!important;box-shadow:0 -4px 20px rgba(0,0,0,0.4)!important;}" +
-                    // 4. Scroll-to-top: above bottom nav
-                    "button[aria-label=\"Scroll to top\"]{bottom:7rem!important;}' +
-                    // 5. Hero section: fit content + leave space for bottom nav (5rem)
-                    'section[class*=min-h-]{min-height:calc(100svh - ' + sat + 'px - 5rem)!important;}' +
-                    // 6. Hero content: minimal top padding (text starts right below nav bar)
-                    'section[class*=min-h-] > div[class*=container]{padding-top:0.5rem!important;padding-bottom:1.5rem!important;}' +
-                    // 7. Headline: professional sizing
-                    'section[class*=min-h-] h1{font-size:2.25rem!important;line-height:1.1!important;margin-top:0.5rem!important;margin-bottom:0.75rem!important;letter-spacing:-0.02em!important;}' +
-                    // 8. Paragraph: readable
-                    'section[class*=min-h-] p{font-size:0.95rem!important;line-height:1.6!important;margin-bottom:1.5rem!important;color:rgba(255,255,255,0.75)!important;}' +
-                    // 9. Button row: spacing
-                    'section[class*=min-h-] div[class*=flex][class*=gap]{margin-bottom:1.5rem!important;}' +
-                    // 10. Buttons: consistent height
-                    'section[class*=min-h-] a[class*=btn], section[class*=min-h-] button[class*=btn]{height:3rem!important;}' +
-                    // 11. Typewriter cursor
-                    '.typewriter-cursor{display:inline-block!important;width:2px!important;height:1em!important;background:#D4A24E!important;margin-left:2px!important;animation:blink-caret 0.8s step-end infinite!important;}' +
-                    // 12. Sheet/side menu: safe-area padding
-                    '[role=dialog], [data-radix-dialog-content]{padding-top:' + sat + 'px!important;padding-bottom:' + sab + 'px!important;}' +
-                    '';" +
+                    "s.textContent=" +
+                    "\"body{padding-top:var(--app-sat)!important;padding-bottom:0!important;}\"" +
+                    "+\"header.sticky,header[class*=sticky]{top:var(--app-sat)!important;}\"" +
+                    "+\"nav.fixed,nav[class*=fixed]{bottom:0!important;background:#1c1a26!important;border-top:1px solid rgba(255,255,255,0.12)!important;box-shadow:0 -4px 20px rgba(0,0,0,0.4)!important;}\"" +
+                    "+\"button[aria-label=\\\"Scroll to top\\\"]{bottom:7rem!important;}\"" +
+                    "+\"section[class*=min-h-]{min-height:calc(100svh - var(--app-sat) - 5rem)!important;}\"" +
+                    "+\"section[class*=min-h-] > div[class*=container]{padding-top:0.5rem!important;padding-bottom:1.5rem!important;}\"" +
+                    "+\"section[class*=min-h-] h1{font-size:2.25rem!important;line-height:1.1!important;margin-top:0.5rem!important;margin-bottom:0.75rem!important;letter-spacing:-0.02em!important;}\"" +
+                    "+\"section[class*=min-h-] p{font-size:0.95rem!important;line-height:1.6!important;margin-bottom:1.5rem!important;color:rgba(255,255,255,0.75)!important;}\"" +
+                    "+\"section[class*=min-h-] div[class*=flex][class*=gap]{margin-bottom:1.5rem!important;}\"" +
+                    "+\"section[class*=min-h-] a[class*=btn],section[class*=min-h-] button[class*=btn]{height:3rem!important;}\"" +
+                    "+\".typewriter-cursor{display:inline-block!important;width:2px!important;height:1em!important;background:#D4A24E!important;margin-left:2px!important;animation:blink-caret 0.8s step-end infinite!important;}\"" +
+                    "+\"[role=dialog],[data-radix-dialog-content]{padding-top:var(--app-sat)!important;padding-bottom:var(--app-sab)!important;}\"" +
+                    ";" +
                     "document.head.appendChild(s);" +
                     "var m=document.querySelector('meta[name=viewport]');" +
                     "if(m){m.setAttribute('content','width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover');}" +
-                    // 13. Fix rating line via JavaScript with retry
+                    // Fix rating line via JavaScript with retry
                     "var fixRating=function(){" +
                     "var r=null;" +
                     "var all=document.querySelectorAll('div[class*=gap-4]');" +
