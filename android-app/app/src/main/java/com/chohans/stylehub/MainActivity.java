@@ -3,35 +3,62 @@ package com.chohans.stylehub;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Build;
+import android.os.Handler;
+import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.webkit.WebSettings;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.CookieManager;
+import android.webkit.HttpBaseVisitor;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.KeyEvent;
-import android.view.View;
 import android.graphics.Color;
 import android.widget.FrameLayout;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 public class MainActivity extends AppCompatActivity {
     private WebView webView;
+    private View splashView;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Set system bar colors
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(Color.parseColor("#0F0F1A"));
             getWindow().setNavigationBarColor(Color.parseColor("#0F0F1A"));
         }
 
-        FrameLayout container = new FrameLayout(this);
-        setContentView(container);
+        // Show splash screen immediately (before WebView loads)
+        splashView = LayoutInflater.from(this).inflate(R.layout.splash_screen, null);
+        setContentView(splashView);
 
-        webView = new WebView(this);
-        container.addView(webView);
+        // Create WebView in background
+        new Handler().post(() -> {
+            FrameLayout container = new FrameLayout(this);
+            setContentView(container);
 
+            webView = new WebView(this);
+            container.addView(webView);
+
+            // Add splash view on top of WebView
+            ViewGroup parent = (ViewGroup) splashView.getParent();
+            if (parent != null) parent.removeView(splashView);
+            container.addView(splashView);
+
+            setupWebView();
+            loadUrl();
+        });
+    }
+
+    @SuppressLint("SetJavaScriptEnabled")
+    private void setupWebView() {
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
@@ -45,7 +72,12 @@ public class MainActivity extends AppCompatActivity {
         settings.setMediaPlaybackRequiresUserGesture(false);
         settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
+        // Fast loading: enable caching
         settings.setCacheMode(WebSettings.LOAD_DEFAULT);
+        // Block images from loading until needed (faster initial render)
+        settings.setBlockNetworkImage(false);
+        // Enable hardware acceleration
+        webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
         CookieManager.getInstance().setAcceptCookie(true);
         CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true);
@@ -54,6 +86,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
+                // Hide splash screen when page loads
+                if (splashView != null && splashView.getParent() != null) {
+                    splashView.animate()
+                        .alpha(0f)
+                        .setDuration(300)
+                        .withEndAction(() -> {
+                            ((ViewGroup) splashView.getParent()).removeView(splashView);
+                            splashView = null;
+                        })
+                        .start();
+                }
                 injectFix(view);
             }
 
@@ -63,22 +106,22 @@ public class MainActivity extends AppCompatActivity {
                 view.postDelayed(() -> injectFix(view), 500);
             }
         });
+    }
 
+    private void loadUrl() {
         webView.loadUrl("https://chohan-s-style-dsaa.vercel.app/");
-
-        if (savedInstanceState != null) {
-            webView.restoreState(savedInstanceState);
+        if (getIntent().getExtras() != null) {
+            // Restore state if available
+            // (handled in savedInstanceState)
         }
     }
 
     @SuppressLint("SetJavaScriptEnabled")
     private void injectFix(WebView view) {
-        // Simple brute-force approach: run every 300ms, no guards, no MutationObserver
-        // Just keep applying inline styles until they stick
+        // Simple brute-force: run every 300ms, no guards
         String js = "javascript:" +
             "setInterval(function(){" +
               "try{" +
-                // Hero section
                 "var s=document.querySelector('section[class*=min-h-]');" +
                 "if(s){" +
                   "s.style.minHeight='calc(100svh - 4rem)';" +
@@ -92,14 +135,12 @@ public class MainActivity extends AppCompatActivity {
                     "c.style.maxWidth='100%';" +
                   "}" +
                 "}" +
-                // Bottom nav
                 "var n=document.querySelector('nav[class*=fixed]');" +
                 "if(n){" +
                   "n.style.background='#1c1a26';" +
                   "n.style.borderTop='1px solid rgba(255,255,255,0.12)';" +
                   "n.style.boxShadow='0 -4px 20px rgba(0,0,0,0.4)';" +
                 "}" +
-                // Rating line
                 "var ds=document.querySelectorAll('div[class*=gap-4]');" +
                 "for(var i=0;i<ds.length;i++){" +
                   "var e=ds[i];" +
@@ -123,12 +164,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        webView.saveState(outState);
+        if (webView != null) webView.saveState(outState);
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && webView.canGoBack()) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && webView != null && webView.canGoBack()) {
             webView.goBack();
             return true;
         }
@@ -138,12 +179,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        webView.onPause();
+        if (webView != null) webView.onPause();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        webView.onResume();
+        if (webView != null) webView.onResume();
     }
 }
