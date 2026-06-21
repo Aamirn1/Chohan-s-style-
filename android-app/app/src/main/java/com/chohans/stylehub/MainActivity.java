@@ -93,8 +93,8 @@ public class MainActivity extends AppCompatActivity {
                 // 2. Find the container div inside the hero section
                 "var cont=sec.querySelector('div[class*=container]');" +
                 "if(cont){" +
-                "cont.style.paddingTop='0.5rem';" +
-                "cont.style.paddingBottom='6rem';" +
+                "cont.style.paddingTop='2.5rem';" +
+                "cont.style.paddingBottom='4.5rem';" +
                 "cont.style.maxWidth='100%';" +
                 "}" +
                 // 3. Style headline
