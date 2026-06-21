@@ -69,10 +69,14 @@ public class MainActivity extends AppCompatActivity {
         settings.setMediaPlaybackRequiresUserGesture(false);
         settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
-        // Fast loading: enable caching
-        settings.setCacheMode(WebSettings.LOAD_DEFAULT);
-        // Block images from loading until needed (faster initial render)
+        // FAST LOADING: aggressive caching - use cache even if expired
+        settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        // FAST LOADING: don't block network image loading
         settings.setBlockNetworkImage(false);
+        // FAST LOADING: enable fast rendering
+        settings.setRenderPriority(WebSettings.RenderPriority.HIGH);
+        // FAST LOADING: disable geolocation (saves time)
+        settings.setGeolocationEnabled(false);
         // Enable hardware acceleration
         webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
