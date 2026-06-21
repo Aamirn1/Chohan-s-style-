@@ -88,13 +88,14 @@ public class MainActivity extends AppCompatActivity {
                 "var sec=sections[si];" +
                 "sec.style.minHeight='calc(100svh - 4rem)';" +
                 "sec.style.display='flex';" +
-                "sec.style.alignItems='flex-start';" +
-                "sec.style.justifyContent='center';" +
+                "sec.style.alignItems='center';" +
+                "sec.style.justifyContent='flex-start';" +
+                "sec.style.flexDirection='column';" +
                 // 2. Find the container div inside the hero section
                 "var cont=sec.querySelector('div[class*=container]');" +
                 "if(cont){" +
-                "cont.style.paddingTop='2.5rem';" +
-                "cont.style.paddingBottom='4.5rem';" +
+                "cont.style.paddingTop='3rem';" +
+                "cont.style.paddingBottom='2rem';" +
                 "cont.style.maxWidth='100%';" +
                 "}" +
                 // 3. Style headline
